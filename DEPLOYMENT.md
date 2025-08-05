@@ -40,70 +40,7 @@ Click the button above to deploy directly to Railway with our pre-configured tem
 2. Set the required environment variables
 3. Deploy automatically
 
-### Manual Deployment
 
-### Step 1: Connect to Railway
-
-1. **Create New Project**
-   - Go to [railway.app](https://railway.app)
-   - Click "New Project"
-   - Select "Deploy from GitHub repo"
-   - Choose your repository
-
-2. **Wait for Initial Deploy**
-   - Railway will automatically detect your Python app
-   - Initial deployment may take 2-3 minutes
-
-### Step 2: Configure Environment Variables
-
-Navigate to your project's "Variables" tab and add:
-
-```env
-DISCORD_BOT_TOKEN=your_discord_bot_token_here
-GUILD_ID=your_guild_id_here
-FLASK_SECRET_KEY=your-secret-key-here
-UI_PASSWORD=your-web-interface-password-here
-```
-
-**Important**: Replace the placeholder values with your actual credentials.
-
-### Step 3: Add PostgreSQL Database (Optional)
-
-1. **Add Database**
-   - Go to "New" → "Database" → "PostgreSQL"
-   - Railway will automatically add `DATABASE_URL` to your variables
-
-2. **Wait for Provisioning**
-   - Database provisioning takes 1-2 minutes
-   - Check the "Variables" tab for the `DATABASE_URL`
-
-### Step 4: Configure Discord Bot
-
-1. **Update OAuth2 Settings**
-   - Go to [Discord Developer Portal](https://discord.com/developers/applications)
-   - Select your application
-   - Go to "OAuth2" → "General"
-   - Add your Railway domain to "Redirects"
-
-2. **Verify Bot Permissions**
-   Ensure your bot has these permissions:
-   - ✅ Send Messages
-   - ✅ Use Slash Commands
-   - ✅ Read Message History
-
-### Step 5: Test Your Deployment
-
-1. **Health Check**
-   - Visit `https://your-app.railway.app/health`
-   - Should return a success response
-
-2. **Web Interface**
-   - Visit `https://your-app.railway.app/`
-   - Should load the model management interface
-
-3. **Discord Bot**
-   - Use `/ping` in your Discord server
-   - Should respond with "Pong! 🏓"
 
 ## 🔧 Environment Variables Reference
 
