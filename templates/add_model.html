@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Model - Discord AI Bot Manager{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="fas fa-plus me-2"></i>Add New AI Model
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Model Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required 
+                               placeholder="e.g., GPT-4, Claude-3, etc.">
+                        <div class="form-text">A friendly name for the model (used in Discord commands)</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="official_name" class="form-label">Official Model Name</label>
+                        <input type="text" class="form-control" id="official_name" name="official_name" required 
+                               placeholder="e.g., openai/gpt-4, anthropic/claude-3-sonnet">
+                        <div class="form-text">The official model identifier from OpenRouter</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="api_key" class="form-label">OpenRouter API Key</label>
+                        <input type="password" class="form-control" id="api_key" name="api_key" required 
+                               placeholder="sk-or-v1-...">
+                        <div class="form-text">Your OpenRouter API key for this model</div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Add Model
+                        </button>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Models
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
