@@ -23,6 +23,25 @@ Make sure your repository includes these essential files:
 
 ## 🚀 Step-by-Step Deployment
 
+### 🚀 One-Click Deploy (Recommended)
+
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/cozy-comfort)
+
+Click the button above to deploy directly to Railway with our pre-configured template!
+
+**Template Information:**
+- **Category**: AI/ML
+- **Required Variables**: 3 (GUILD_ID, UI_PASSWORD, DISCORD_BOT_TOKEN)
+- **PostgreSQL**: Optional but recommended
+- **Full-Stack**: Discord bot + web interface
+
+**After clicking the deploy button:**
+1. Connect your GitHub account
+2. Set the required environment variables
+3. Deploy automatically
+
+### Manual Deployment
+
 ### Step 1: Connect to Railway
 
 1. **Create New Project**
@@ -43,6 +62,7 @@ Navigate to your project's "Variables" tab and add:
 DISCORD_BOT_TOKEN=your_discord_bot_token_here
 GUILD_ID=your_guild_id_here
 FLASK_SECRET_KEY=your-secret-key-here
+UI_PASSWORD=your-web-interface-password-here
 ```
 
 **Important**: Replace the placeholder values with your actual credentials.
@@ -94,6 +114,7 @@ FLASK_SECRET_KEY=your-secret-key-here
 | `FLASK_SECRET_KEY` | Secret key for Flask sessions | ✅ | None |
 | `DATABASE_URL` | Database connection string | ❌ | Auto-provided by Railway |
 | `PORT` | Port for the web server | ❌ | Auto-set by Railway |
+| `UI_PASSWORD` | Password for accessing the web interface | ❌ | None |
 
 ## 🔍 Troubleshooting
 
