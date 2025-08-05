@@ -54,7 +54,7 @@ FLASK_SECRET_KEY=your_secret_key_here
 
 ### 5. Launch the Bot
 ```bash
-python discord_bot.py
+python run.py
 ```
 
 The bot will automatically:
