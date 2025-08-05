@@ -9,17 +9,7 @@ Before deploying, ensure you have:
 - ✅ **Discord Bot Token**: Get from [Discord Developer Portal](https://discord.com/developers/applications)
 - ✅ **OpenRouter API Key**: Get from [openrouter.ai](https://openrouter.ai)
 
-## 📁 Repository Preparation
 
-Make sure your repository includes these essential files:
-
-| File | Purpose |
-|------|---------|
-| `Procfile` | Tells Railway how to run your app |
-| `requirements.txt` | Python dependencies |
-| `runtime.txt` | Python version specification |
-| `railway.json` | Railway configuration |
-| `.gitignore` | Excludes sensitive files |
 
 ## 🚀 Step-by-Step Deployment
 
