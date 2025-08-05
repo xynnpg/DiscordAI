@@ -1,6 +1,6 @@
 # 🚀 Setup Guide
 
-## ⚡ Quick Start
+## 🚀 Quick Start
 
 ### 1. Install Dependencies
 ```bash
@@ -13,12 +13,29 @@ Create a `.env` file in the root directory:
 DISCORD_BOT_TOKEN=your_discord_bot_token_here
 GUILD_ID=your_guild_id_here
 FLASK_SECRET_KEY=your-secret-key-here
+UI_PASSWORD=your-web-interface-password-here
 ```
 
 ### 3. Run the Bot
 ```bash
 python run.py
 ```
+
+## 🚀 Railway Template Deployment
+
+### One-Click Deploy
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/cozy-comfort)
+
+**Template Features:**
+- ✅ **AI/ML Category** - Listed in Railway's AI/ML templates
+- ✅ **3 Required Variables** - Simple configuration
+- ✅ **PostgreSQL Support** - Optional but recommended
+- ✅ **Full-Stack Solution** - Discord bot + web interface
+
+**Required Variables for Railway:**
+- `GUILD_ID` - Your Discord server ID
+- `UI_PASSWORD` - Password for web interface management
+- `DISCORD_BOT_TOKEN` - Your Discord bot token
 
 ## 📋 Detailed Setup
 
@@ -127,6 +144,7 @@ python run.py
 | `DISCORD_BOT_TOKEN` | Your Discord bot token | ✅ |
 | `GUILD_ID` | Your Discord server ID | ✅ |
 | `FLASK_SECRET_KEY` | Secret key for Flask sessions | ✅ |
+| `UI_PASSWORD` | Password for web interface access | ❌ |
 
 ## 🎯 Next Steps
 
@@ -140,4 +158,4 @@ After setup, you can:
 
 - 📖 Check the [README.md](README.md) for detailed information
 - 🔧 See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common issues
-- 🚀 Review [DEPLOYMENT.md](DEPLOYMENT.md) for production deployment 
+- 🚀 Review [DEPLOYMENT.md](DEPLOYMENT.md) for production deployment

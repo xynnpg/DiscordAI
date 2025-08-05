@@ -10,6 +10,7 @@ Set these environment variables in your Railway dashboard:
 | `DISCORD_BOT_TOKEN` | Your Discord bot token from Discord Developer Portal | `MTM5ODY2ODEzMzM4MzkyOTg4Ng.GIbhD8.3cGw4I6ps4SecKK8tckVvOf3h7wgAI4y48WW5Q` |
 | `GUILD_ID` | Your Discord server (guild) ID | `1398670692077142037` |
 | `FLASK_SECRET_KEY` | A random secret key for Flask sessions | `your-super-secret-key-here` |
+| `UI_PASSWORD` | Password for accessing the web interface (optional, for security) | `your-secure-password` |
 
 ### Optional Variables
 | Variable | Description | Status |
@@ -18,6 +19,20 @@ Set these environment variables in your Railway dashboard:
 | `PORT` | Port for the web server | Auto-set by Railway |
 
 ## 🚀 Deployment Steps
+
+### 🚀 One-Click Deploy (Recommended)
+
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/cozy-comfort)
+
+Click the button above for instant deployment!
+
+**Template Details:**
+- **Category**: AI/ML
+- **Variables**: 3 required (GUILD_ID, UI_PASSWORD, DISCORD_BOT_TOKEN)
+- **Database**: PostgreSQL (optional but recommended)
+- **Stack**: Full-stack Discord bot + web interface
+
+### Manual Deployment
 
 ### 1. Prepare Your Repository
 - ✅ Push your code to GitHub

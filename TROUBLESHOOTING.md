@@ -39,8 +39,13 @@ Look for these error messages in Railway logs:
 Make sure these are set in Railway:
 - ✅ `DISCORD_BOT_TOKEN`
 - ✅ `GUILD_ID`
-- ✅ `FLASK_SECRET_KEY`
+- ✅ `UI_PASSWORD` (for web interface access)
 - ✅ `DATABASE_URL` (should be auto-provided by Railway)
+
+**Railway Template Variables:**
+- `GUILD_ID` - Your Discord server ID
+- `UI_PASSWORD` - Password for web interface management  
+- `DISCORD_BOT_TOKEN` - Your Discord bot token
 
 ### 5. **Database Migration Issues**
 If the database is empty or corrupted:

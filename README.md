@@ -146,7 +146,20 @@ This bot is ready for deployment on Railway! See the deployment guides:
 - **[📋 DEPLOYMENT.md](DEPLOYMENT.md)** - Complete deployment guide
 - **[✅ DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)** - Pre-deployment checklist
 
+### 🚀 One-Click Deploy
+
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/cozy-comfort)
+
+Click the button above to deploy directly to Railway with our pre-configured template!
+
+**Template Features:**
+- ✅ **AI/ML Category** - Listed in Railway's AI/ML templates
+- ✅ **3 Required Variables** - Simple configuration
+- ✅ **PostgreSQL Support** - Optional but recommended
+- ✅ **Full-Stack Solution** - Discord bot + web interface
+
 ### Quick Deploy
+
 1. Push your code to GitHub
 2. Connect to Railway
 3. Add environment variables
