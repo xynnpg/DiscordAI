@@ -1,18 +1,16 @@
-# 🚀 Railway Deployment Guide
+# Railway Deployment Guide
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before deploying, ensure you have:
 
-- ✅ **Railway Account**: Sign up at [railway.app](https://railway.app)
-- ✅ **Discord Bot Token**: Get from [Discord Developer Portal](https://discord.com/developers/applications)
-- ✅ **OpenRouter API Key**: Get from [openrouter.ai](https://openrouter.ai)
+- **Railway Account**: Sign up at [railway.app](https://railway.app)
+- **Discord Bot Token**: Get from [Discord Developer Portal](https://discord.com/developers/applications)
+- **OpenRouter API Key**: Get from [openrouter.ai](https://openrouter.ai)
 
+## Step-by-Step Deployment
 
-
-## 🚀 Step-by-Step Deployment
-
-### 🚀 One-Click Deploy (Recommended)
+### One-Click Deploy (Recommended)
 
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/cozy-comfort)
 
@@ -29,50 +27,57 @@ Click the button above to deploy directly to Railway with our pre-configured tem
 2. Set the required environment variables
 3. Deploy automatically
 
-
-
-## 🔧 Environment Variables Reference
+## Environment Variables Reference
 
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
-| `DISCORD_BOT_TOKEN` | Your Discord bot token | ✅ | None |
-| `GUILD_ID` | Your Discord server ID | ✅ | None |
-| `FLASK_SECRET_KEY` | Secret key for Flask sessions | ✅ | None |
-| `DATABASE_URL` | Database connection string | ❌ | Auto-provided by Railway |
-| `PORT` | Port for the web server | ❌ | Auto-set by Railway |
-| `UI_PASSWORD` | Password for accessing the web interface | ❌ | None |
+| `DISCORD_BOT_TOKEN` | Your Discord bot token | Yes | None |
+| `GUILD_ID` | Your Discord server ID | Yes | None |
+| `FLASK_SECRET_KEY` | Secret key for Flask sessions | Yes | None |
+| `DATABASE_URL` | Database connection string | No | Auto-provided by Railway |
+| `PORT` | Port for the web server | No | Auto-set by Railway |
+| `UI_PASSWORD` | Password for accessing the web interface | No | None |
 
-## 🔍 Troubleshooting
+## Tutorial
+
+For a complete visual deployment guide, visit: **[Discord AI Setup Guide](https://xynnpg.github.io/DiscordAI/)**
+
+This tutorial provides:
+- Step-by-step Railway deployment instructions
+- Environment variable configuration
+- Post-deployment verification steps
+
+## Troubleshooting
 
 ### Bot Not Responding
 
 **Symptoms**: Bot appears offline or doesn't respond to commands
 
 **Solutions**:
-- ✅ Verify `DISCORD_BOT_TOKEN` is correct
-- ✅ Check if the bot is online in your server
-- ✅ Review Railway logs for connection errors
-- ✅ Ensure bot has proper permissions
+- Verify `DISCORD_BOT_TOKEN` is correct
+- Check if the bot is online in your server
+- Review Railway logs for connection errors
+- Ensure bot has proper permissions
 
 ### Web Interface Not Loading
 
 **Symptoms**: Website returns errors or doesn't load
 
 **Solutions**:
-- ✅ Check Railway logs for Flask startup errors
-- ✅ Verify all environment variables are set
-- ✅ Test the health endpoint: `/health`
-- ✅ Ensure no syntax errors in your code
+- Check Railway logs for Flask startup errors
+- Verify all environment variables are set
+- Test the health endpoint: `/health`
+- Ensure no syntax errors in your code
 
 ### Database Issues
 
 **Symptoms**: Database connection errors or missing data
 
 **Solutions**:
-- ✅ Wait for PostgreSQL to fully provision (1-2 minutes)
-- ✅ Verify `DATABASE_URL` is properly set
-- ✅ Check for database connection errors in logs
-- ✅ Restart deployment if database is stuck
+- Wait for PostgreSQL to fully provision (1-2 minutes)
+- Verify `DATABASE_URL` is properly set
+- Check for database connection errors in logs
+- Restart deployment if database is stuck
 
 ### Common Error Messages
 
@@ -83,7 +88,7 @@ Click the button above to deploy directly to Railway with our pre-configured tem
 | "Database connection failed" | Wait for PostgreSQL provisioning |
 | "Environment variable missing" | Add required variables in Railway dashboard |
 
-## 📊 Monitoring & Maintenance
+## Monitoring & Maintenance
 
 ### Railway Dashboard
 
@@ -106,21 +111,21 @@ Click the button above to deploy directly to Railway with our pre-configured tem
 - **Cost Optimization**: Consider upgrading plan for more resources
 - **Performance**: Monitor response times and error rates
 
-## 🔒 Security Best Practices
+## Security Best Practices
 
 ### Environment Security
-- 🚫 Never commit `.env` files to your repository
-- 🔐 Use strong, unique secrets for `FLASK_SECRET_KEY`
-- 🔄 Regularly rotate your Discord bot token and API keys
-- 🛡️ Enable Railway's automatic HTTPS
+- Never commit `.env` files to your repository
+- Use strong, unique secrets for `FLASK_SECRET_KEY`
+- Regularly rotate your Discord bot token and API keys
+- Enable Railway's automatic HTTPS
 
 ### Access Control
-- 🔑 Use strong, unique API keys for each model
-- 👥 Limit bot permissions to minimum required
-- 📊 Monitor usage for unusual activity
-- 🔍 Regularly review and update security settings
+- Use strong, unique API keys for each model
+- Limit bot permissions to minimum required
+- Monitor usage for unusual activity
+- Regularly review and update security settings
 
-## 💰 Cost Optimization
+## Cost Optimization
 
 ### Railway Pricing
 - **Free Tier**: Limited resources, good for development
@@ -128,24 +133,24 @@ Click the button above to deploy directly to Railway with our pre-configured tem
 - **Usage-Based**: Pay for what you use
 
 ### Optimization Tips
-- 📊 Monitor usage in Railway dashboard
-- ⏰ Scale down during low-traffic periods
-- 🔍 Review and optimize resource usage
-- 💡 Consider free tier for development
+- Monitor usage in Railway dashboard
+- Scale down during low-traffic periods
+- Review and optimize resource usage
+- Consider free tier for development
 
-## 🎉 Success Checklist
+## Success Checklist
 
 After deployment, verify:
 
-- ✅ **Health Check**: `/health` endpoint responds
-- ✅ **Web Interface**: Accessible at your Railway URL
-- ✅ **Discord Bot**: Responds to `/ping` command
-- ✅ **Model Management**: Can add/edit models via web interface
-- ✅ **AI Chat**: `/ask` command works with your models
-- ✅ **Environment Variables**: All required variables set
-- ✅ **Database**: PostgreSQL connected (if using)
+- **Health Check**: `/health` endpoint responds
+- **Web Interface**: Accessible at your Railway URL
+- **Discord Bot**: Responds to `/ping` command
+- **Model Management**: Can add/edit models via web interface
+- **AI Chat**: `/ask` command works with your models
+- **Environment Variables**: All required variables set
+- **Database**: PostgreSQL connected (if using)
 
-## 🆘 Getting Help
+## Getting Help
 
 If you encounter issues:
 
@@ -153,12 +158,13 @@ If you encounter issues:
 2. **Verify Environment Variables**: Ensure all required variables are set
 3. **Test Locally**: Try running the app locally first
 4. **Review Documentation**: Check other guides in this repository
-5. **Community Support**: Reach out for help if needed
+5. **Visit Tutorial**: Use the [Discord AI Setup Guide](https://xynnpg.github.io/DiscordAI/) for visual instructions
+6. **Community Support**: Reach out for help if needed
 
 ---
 
-**🎉 Congratulations! Your Discord AI bot is now deployed and running on Railway!**
+**Congratulations! Your Discord AI bot is now deployed and running on Railway!**
 
-- **🌐 Web Interface**: `https://your-app.railway.app/`
-- **🔍 Health Check**: `https://your-app.railway.app/health`
-- **🤖 Discord Bot**: Available in your server with slash commands 
+- **Web Interface**: `https://your-app.railway.app/`
+- **Health Check**: `https://your-app.railway.app/health`
+- **Discord Bot**: Available in your server with slash commands 
