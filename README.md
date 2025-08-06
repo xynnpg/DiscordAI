@@ -154,16 +154,9 @@ Click the button above to deploy directly to Railway with our pre-configured tem
 
 **Template Features:**
 - ✅ **AI/ML Category** - Listed in Railway's AI/ML templates
-- ✅ **3 Required Variables** - Simple configuration
-- ✅ **PostgreSQL Support** - Optional but recommended
+- ✅ **4 Required Variables** - Simple configuration
 - ✅ **Full-Stack Solution** - Discord bot + web interface
 
-### Quick Deploy
-
-1. Push your code to GitHub
-2. Connect to Railway
-3. Add environment variables
-4. Deploy! 🎉
 
 ## 🤝 Contributing
 
