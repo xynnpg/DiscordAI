@@ -5,7 +5,6 @@
 Before deploying, ensure you have:
 
 - ✅ **Railway Account**: Sign up at [railway.app](https://railway.app)
-- ✅ **GitHub Repository**: Push your code to GitHub
 - ✅ **Discord Bot Token**: Get from [Discord Developer Portal](https://discord.com/developers/applications)
 - ✅ **OpenRouter API Key**: Get from [openrouter.ai](https://openrouter.ai)
 
