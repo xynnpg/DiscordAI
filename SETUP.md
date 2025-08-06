@@ -1,6 +1,6 @@
-# 🚀 Setup Guide
+# Setup Guide
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Install Dependencies
 ```bash
@@ -21,23 +21,23 @@ UI_PASSWORD=your-web-interface-password-here
 python run.py
 ```
 
-## 🚀 Railway Template Deployment
+## Railway Template Deployment
 
 ### One-Click Deploy
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/cozy-comfort)
 
 **Template Features:**
-- ✅ **AI/ML Category** - Listed in Railway's AI/ML templates
-- ✅ **3 Required Variables** - Simple configuration
-- ✅ **PostgreSQL Support** - Optional but recommended
-- ✅ **Full-Stack Solution** - Discord bot + web interface
+- AI/ML Category - Listed in Railway's AI/ML templates
+- 3 Required Variables - Simple configuration
+- PostgreSQL Support - Optional but recommended
+- Full-Stack Solution - Discord bot + web interface
 
 **Required Variables for Railway:**
 - `GUILD_ID` - Your Discord server ID
 - `UI_PASSWORD` - Password for web interface management
 - `DISCORD_BOT_TOKEN` - Your Discord bot token
 
-## 📋 Detailed Setup
+## Detailed Setup
 
 ### Discord Bot Setup
 
@@ -52,15 +52,15 @@ python run.py
 
 3. **Configure Permissions**
    - Under "Privileged Gateway Intents", enable:
-     - ✅ Message Content Intent
+     - Message Content Intent
 
 4. **Generate Invite URL**
    - Go to "OAuth2" → "URL Generator"
    - Select scopes: `bot` and `applications.commands`
    - Select bot permissions:
-     - ✅ Send Messages
-     - ✅ Use Slash Commands
-     - ✅ Read Message History
+     - Send Messages
+     - Use Slash Commands
+     - Read Message History
    - Copy the generated URL and invite the bot to your server
 
 ### OpenRouter API Setup
@@ -120,42 +120,53 @@ python run.py
    ```
    Should get a response from your selected AI model
 
-## 🔧 Common Issues
+## Tutorial
+
+For a complete step-by-step setup guide with visual instructions, visit: **[Discord AI Setup Guide](https://xynnpg.github.io/DiscordAI/)**
+
+This tutorial provides:
+- Visual Discord Developer Portal walkthrough
+- Step-by-step bot configuration
+- Environment setup instructions
+- Local and cloud deployment options
+
+## Common Issues
 
 ### Bot Not Responding
-- ✅ Check if the bot token is correct
-- ✅ Ensure the bot is online in your server
-- ✅ Verify the bot has proper permissions
+- Check if the bot token is correct
+- Ensure the bot is online in your server
+- Verify the bot has proper permissions
 
 ### AI Not Working
-- ✅ Check if the model is active in the web interface
-- ✅ Verify the OpenRouter API key is correct
-- ✅ Ensure you've set a model with `/change`
+- Check if the model is active in the web interface
+- Verify the OpenRouter API key is correct
+- Ensure you've set a model with `/change`
 
 ### Web Interface Not Loading
-- ✅ Check if port 5000 is available
-- ✅ Ensure the bot is running
-- ✅ Check console for error messages
+- Check if port 5000 is available
+- Ensure the bot is running
+- Check console for error messages
 
-## 📝 Environment Variables
+## Environment Variables
 
 | Variable | Description | Required |
 |----------|-------------|----------|
-| `DISCORD_BOT_TOKEN` | Your Discord bot token | ✅ |
-| `GUILD_ID` | Your Discord server ID | ✅ |
-| `FLASK_SECRET_KEY` | Secret key for Flask sessions | ✅ |
-| `UI_PASSWORD` | Password for web interface access | ❌ |
+| `DISCORD_BOT_TOKEN` | Your Discord bot token | Yes |
+| `GUILD_ID` | Your Discord server ID | Yes |
+| `FLASK_SECRET_KEY` | Secret key for Flask sessions | Yes |
+| `UI_PASSWORD` | Password for web interface access | No |
 
-## 🎯 Next Steps
+## Next Steps
 
 After setup, you can:
-- 🌐 Access the web interface to manage models
-- 💬 Start chatting with AI using `/ask`
-- 🔄 Switch between different AI models
-- 📊 Monitor usage and performance
+- Access the web interface to manage models
+- Start chatting with AI using `/ask`
+- Switch between different AI models
+- Monitor usage and performance
 
-## 🆘 Need Help?
+## Need Help?
 
-- 📖 Check the [README.md](README.md) for detailed information
-- 🔧 See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common issues
-- 🚀 Review [DEPLOYMENT.md](DEPLOYMENT.md) for production deployment
+- Check the [README.md](README.md) for detailed information
+- See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common issues
+- Review [DEPLOYMENT.md](DEPLOYMENT.md) for production deployment
+- Visit the [Discord AI Setup Guide](https://xynnpg.github.io/DiscordAI/) for visual tutorials
