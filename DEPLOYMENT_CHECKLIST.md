@@ -32,39 +32,7 @@ Click the button above for instant deployment!
 - **Database**: PostgreSQL (optional but recommended)
 - **Stack**: Full-stack Discord bot + web interface
 
-### Manual Deployment
 
-### 1. Prepare Your Repository
-- ✅ Push your code to GitHub
-- ✅ Ensure all required files are present:
-  - `Procfile`
-  - `requirements.txt`
-  - `runtime.txt`
-  - `railway.json`
-  - `.gitignore`
-
-### 2. Connect to Railway
-- ✅ Go to [railway.app](https://railway.app)
-- ✅ Click "New Project"
-- ✅ Select "Deploy from GitHub repo"
-- ✅ Choose your repository
-- ✅ Wait for initial deployment (2-3 minutes)
-
-### 3. Configure Environment Variables
-- ✅ Go to your project's "Variables" tab
-- ✅ Add all required environment variables
-- ✅ Double-check values for accuracy
-- ✅ Save changes
-
-### 4. Add Database (Optional)
-- ✅ Go to "New" → "Database" → "PostgreSQL"
-- ✅ Wait for database provisioning (1-2 minutes)
-- ✅ Verify `DATABASE_URL` appears in variables
-
-### 5. Test Deployment
-- ✅ Check health endpoint: `your-railway-url/health`
-- ✅ Test web interface: `your-railway-url/`
-- ✅ Test Discord bot: `/ping` command
 
 ## 🔍 Troubleshooting Guide
 
