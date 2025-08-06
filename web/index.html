@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord AI Setup Guide</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        
+        <header class="header">
+            <h1 class="title">
+                <i class="fas fa-robot"></i>
+                Discord AI Setup Guide
+            </h1>
+            <p class="subtitle">Complete your Discord AI bot setup with this step-by-step guide</p>
+        </header>
+
+        
+        <section id="steps" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-list-ol"></i> Preparation Steps</h2>
+                <p>Follow these steps to prepare your Discord AI bot</p>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step-card" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-image" onclick="showImageModal('images/PREP_1.png', 'Create Bot')">
+                        <img src="images/PREP_1.png" alt="Preparation Step 1" loading="lazy">
+                        <div class="image-overlay">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <h3>Create Bot</h3>
+                        <p>Create the bot and give it a name.</p>
+                        <a href="https://discord.com/developers/applications" target="_blank" class="step-link">
+                            <i class="fas fa-external-link-alt"></i>
+                            Discord Developer Portal
+                        </a>
+                    </div>
+                </div>
+
+                <div class="step-card" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-image" onclick="showImageModal('images/PREP_2.png', 'Settings')">
+                        <img src="images/PREP_2.png" alt="Preparation Step 2" loading="lazy">
+                        <div class="image-overlay">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <h3>Settings</h3>
+                        <p>Enable those settings and reset the token.</p>
+                    </div>
+                </div>
+
+                <div class="step-card" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-image" onclick="showImageModal('images/PREP_3.png', 'Developer Mode')">
+                        <img src="images/PREP_3.png" alt="Preparation Step 3" loading="lazy">
+                        <div class="image-overlay">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <h3>Developer Mode</h3>
+                        <p>Enable developer mode on discord</p>
+                    </div>
+                </div>
+
+                <div class="step-card" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-image" onclick="showImageModal('images/PREP_4.png', 'Guild ID')">
+                        <img src="images/PREP_4.png" alt="Preparation Step 4" loading="lazy">
+                        <div class="image-overlay">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <h3>Guild ID</h3>
+                        <p>Copy the Server Id, thats the Guild Id</p>
+                    </div>
+                </div>
+
+                <div class="step-card" data-step="5">
+                    <div class="step-number">5</div>
+                    <div class="step-image" onclick="showImageModal('images/PREP_5.png', 'Invite')">
+                        <img src="images/PREP_5.png" alt="Preparation Step 5" loading="lazy">
+                        <div class="image-overlay">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <h3>Invite</h3>
+                        <p>Invite the bot in your server</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="methods" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-cogs"></i> Setup Methods</h2>
+                <p>Choose your preferred setup method</p>
+            </div>
+
+            <div class="methods-container">
+                
+                <div class="method-section">
+                    <h3 class="method-title">
+                        <i class="fas fa-rocket"></i>
+                        Method 1: Quick Setup
+                    </h3>
+                    <div class="method-steps">
+                        <div class="method-step">
+                            <div class="method-image" onclick="showImageModal('images/Method_1.1.png', 'Step 1: Clone Repository')">
+                                <img src="images/Method_1.1.png" alt="Method 1 Step 1" loading="lazy">
+                                <div class="image-overlay">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="method-content">
+                                <h4>Step 1</h4>
+                                <p>Clone the DiscordAI repository</p>
+                            </div>
+                        </div>
+
+                        <div class="method-step">
+                            <div class="method-image" onclick="showImageModal('images/Method_1.2.png', 'Step 2: Navigate to Directory')">
+                                <img src="images/Method_1.2.png" alt="Method 1 Step 2" loading="lazy">
+                                <div class="image-overlay">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="method-content">
+                                <h4>Step 2</h4>
+                                <p>Navigate to the DiscordAI directory</p>
+                            </div>
+                        </div>
+
+                        <div class="method-step">
+                            <div class="method-image" onclick="showImageModal('images/Method_1.3.png', 'Step 3: Edit Environment File')">
+                                <img src="images/Method_1.3.png" alt="Method 1 Step 3" loading="lazy">
+                                <div class="image-overlay">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="method-content">
+                                <h4>Step 3</h4>
+                                <p>Edit the environment configuration file</p>
+                            </div>
+                        </div>
+
+                        <div class="method-step">
+                            <div class="method-image" onclick="showImageModal('images/Method_1.4.png', 'Step 4: Install Dependencies')">
+                                <img src="images/Method_1.4.png" alt="Method 1 Step 4" loading="lazy">
+                                <div class="image-overlay">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="method-content">
+                                <h4>Step 4</h4>
+                                <p>Install required Python packages</p>
+                            </div>
+                        </div>
+
+                        <div class="method-step">
+                            <div class="method-image" onclick="showImageModal('images/Method_1.5.png', 'Step 5: Run the Bot')">
+                                <img src="images/Method_1.5.png" alt="Method 1 Step 5" loading="lazy">
+                                <div class="image-overlay">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="method-content">
+                                <h4>Step 5</h4>
+                                <p>Start your Discord AI bot</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="method-btn" onclick="selectMethod(1)">
+                        <i class="fas fa-check"></i>
+                        Use Method 1
+                    </button>
+                </div>
+
+                
+                <div class="method-section">
+                    <h3 class="method-title">
+                        <i class="fas fa-tools"></i>
+                        Method 2: Advanced Setup
+                    </h3>
+                    <div class="method-deploy">
+                        <a href="https://railway.com/deploy/cozy-comfort" target="_blank" class="deploy-btn">
+                            <i class="fas fa-rocket"></i>
+                            Deploy on Railway
+                        </a>
+                    </div>
+                    <div class="method-steps">
+                        <div class="method-step">
+                            <div class="method-image" onclick="showImageModal('images/Method_2.1.png', 'Deployment')">
+                                <img src="images/Method_2.1.png" alt="Method 2 Step 1" loading="lazy">
+                                <div class="image-overlay">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="method-content">
+                                <h4>Step 1</h4>
+                                <p>Click on the deploy button</p>
+                            </div>
+                        </div>
+
+                        <div class="method-step">
+                            <div class="method-image" onclick="showImageModal('images/Method_2.2.png', 'Configuration')">
+                                <img src="images/Method_2.2.png" alt="Method 2 Step 2" loading="lazy">
+                                <div class="image-overlay">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="method-content">
+                                <h4>Step 2</h4>
+                                <p>Add your information.</p>
+                            </div>
+                        </div>
+
+                        <div class="method-step">
+                            <div class="method-image" onclick="showImageModal('images/Method_2.3.png', 'Wait')">
+                                <img src="images/Method_2.3.png" alt="Method 2 Step 3" loading="lazy">
+                                <div class="image-overlay">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="method-content">
+                                <h4>Step 3</h4>
+                                <p>Wait for the building and deploying to finish</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="method-btn" onclick="selectMethod(2)">
+                        <i class="fas fa-check"></i>
+                        Use Method 2
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="finish" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-flag-checkered"></i> Completion</h2>
+                <p>You're almost done! Complete your setup</p>
+            </div>
+
+            <div class="finish-container">
+                <div class="finish-image" onclick="showImageModal('images/Finish.png', 'Setup Complete')">
+                    <img src="images/Finish.png" alt="Setup Complete" loading="lazy">
+                    <div class="image-overlay">
+                        <i class="fas fa-expand"></i>
+                    </div>
+                </div>
+                <div class="finish-content">
+                    <h3>Setup Complete!</h3>
+                    <p>Congratulations! Your Discord AI bot has been successfully configured and is ready to use.</p>
+                    <div class="finish-features">
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Bot is online and responsive</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>All permissions configured</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Ready for production use</span>
+                        </div>
+                    </div>
+                    <button class="finish-btn" onclick="completeSetup()">
+                        <i class="fas fa-rocket"></i>
+                        Launch Your Bot
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        
+        <nav class="navigation">
+            <button class="nav-btn active" onclick="scrollToSection('steps')">
+                <i class="fas fa-list-ol"></i>
+                Steps
+            </button>
+            <button class="nav-btn" onclick="scrollToSection('methods')">
+                <i class="fas fa-cogs"></i>
+                Methods
+            </button>
+            <button class="nav-btn" onclick="scrollToSection('finish')">
+                <i class="fas fa-flag-checkered"></i>
+                Finish
+            </button>
+        </nav>
+    </div>
+
+    
+    <div class="image-modal" id="imageModal">
+        <div class="modal-image-container">
+            <button class="modal-close" onclick="closeImageModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <div class="modal-title" id="modalTitle"></div>
+            <div class="modal-command" id="modalCommand" style="display: none;">
+                <span id="modalCommandText"></span>
+                <button class="modal-command-btn" id="modalCommandBtn" onclick="copyModalCommand()">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div class="modal-note" id="modalNote" style="display: none;">
+                <i class="fas fa-info-circle"></i>
+                <span id="modalNoteText"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
