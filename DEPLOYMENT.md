@@ -12,7 +12,7 @@ Before deploying, ensure you have:
 
 ### One-Click Deploy (Recommended)
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/cozy-comfort)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/discord-ai)
 
 Click the button above to deploy directly to Railway with our pre-configured template!
 
