@@ -158,7 +158,7 @@ This bot is ready for deployment on Railway! See the deployment guides:
 
 ### One-Click Deploy
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/cozy-comfort)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/discord-ai)
 
 Click the button above to deploy directly to Railway with our pre-configured template!
 
