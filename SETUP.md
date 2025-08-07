@@ -24,7 +24,7 @@ python run.py
 ## Railway Template Deployment
 
 ### One-Click Deploy
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/cozy-comfort)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/discord-ai)
 
 **Template Features:**
 - AI/ML Category - Listed in Railway's AI/ML templates
