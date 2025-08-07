@@ -22,7 +22,7 @@ Set these environment variables in your Railway dashboard:
 
 ### One-Click Deploy (Recommended)
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/cozy-comfort)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/discord-ai)
 
 Click the button above for instant deployment!
 
