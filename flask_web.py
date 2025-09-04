@@ -52,18 +52,26 @@ def create_app():
         decorated_function.__name__ = f.__name__
         return decorated_function
 
-    # OpenRouter model definitions - updated with new free models
+    # OpenRouter model definitions - updated with comprehensive model support
     OPENROUTER_MODELS = {
         'free': [
-            {'id': 'cognitivecomputations/dolphin-mistral-24b-venice-edition:free', 'name': 'Dolphin Mistral 24B', 'description': 'High-quality uncensored conversational model', 'price': '$0.00/M'},
-            {'id': 'deepseek/deepseek-r1-0528-qwen3-8b:free', 'name': 'DeepSeek R1 Qwen3 8B', 'description': 'Fast reasoning model with 8B parameters', 'price': '$0.00/M'},
-            {'id': 'deepseek/deepseek-r1-0528:free', 'name': 'DeepSeek R1', 'description': 'Advanced reasoning model with strong performance', 'price': '$0.00/M'},
-            {'id': 'mistralai/devstral-small-2505:free', 'name': 'Devstral Small', 'description': 'Code-optimized model for development tasks', 'price': '$0.00/M'},
-            {'id': 'meta-llama/llama-4-maverick:free', 'name': 'Llama 4 Maverick', 'description': 'Meta\'s latest Llama 4 variant with enhanced capabilities', 'price': '$0.00/M'},
-            {'id': 'meta-llama/llama-4-scout:free', 'name': 'Llama 4 Scout', 'description': 'Lightweight Llama 4 model for exploration', 'price': '$0.00/M'},
-            {'id': 'google/gemini-2.5-flash-image-preview:free', 'name': 'Gemini 2.5 Flash Image', 'description': 'Google\'s multimodal model with image generation capabilities', 'price': '$0.00/M'}
+            {'id': 'cognitivecomputations/dolphin-mistral-24b-venice-edition:free', 'name': 'Dolphin Mistral 24B', 'description': 'High-quality uncensored conversational model with excellent reasoning', 'price': '$0.00/M', 'category': 'General Chat'},
+            {'id': 'deepseek/deepseek-r1-0528-qwen3-8b:free', 'name': 'DeepSeek R1 Qwen3 8B', 'description': 'Fast reasoning model optimized for logical thinking', 'price': '$0.00/M', 'category': 'Reasoning'},
+            {'id': 'deepseek/deepseek-r1-0528:free', 'name': 'DeepSeek R1', 'description': 'Advanced reasoning model with strong analytical capabilities', 'price': '$0.00/M', 'category': 'Reasoning'},
+            {'id': 'mistralai/devstral-small-2505:free', 'name': 'Devstral Small', 'description': 'Code-optimized model for development and programming tasks', 'price': '$0.00/M', 'category': 'Code'},
+            {'id': 'meta-llama/llama-4-maverick:free', 'name': 'Llama 4 Maverick', 'description': 'Meta\'s latest Llama 4 variant with enhanced conversational abilities', 'price': '$0.00/M', 'category': 'General Chat'},
+            {'id': 'meta-llama/llama-4-scout:free', 'name': 'Llama 4 Scout', 'description': 'Lightweight Llama 4 model for quick responses and exploration', 'price': '$0.00/M', 'category': 'General Chat'},
+            {'id': 'google/gemini-2.5-flash-image-preview:free', 'name': 'Gemini 2.5 Flash Image', 'description': 'Google\'s multimodal model with image analysis and generation capabilities', 'price': '$0.00/M', 'category': 'Multimodal'},
+            {'id': 'google/gemini-flash-1.5:free', 'name': 'Gemini Flash 1.5', 'description': 'Google\'s fast and efficient model for general tasks', 'price': '$0.00/M', 'category': 'General Chat'},
+            {'id': 'openai/gpt-3.5-turbo:free', 'name': 'GPT-3.5 Turbo', 'description': 'OpenAI\'s reliable model for general conversations', 'price': '$0.00/M', 'category': 'General Chat'},
+            {'id': 'anthropic/claude-3-haiku:free', 'name': 'Claude 3 Haiku', 'description': 'Anthropic\'s fast and efficient model for quick responses', 'price': '$0.00/M', 'category': 'General Chat'}
         ],
-        'paid': []
+        'paid': [
+            {'id': 'openai/gpt-4o', 'name': 'GPT-4 Omni', 'description': 'OpenAI\'s most capable multimodal model', 'price': '$15.00/M tokens', 'category': 'Multimodal'},
+            {'id': 'anthropic/claude-3.5-sonnet', 'name': 'Claude 3.5 Sonnet', 'description': 'Anthropic\'s most intelligent model with excellent reasoning', 'price': '$3.00/M tokens', 'category': 'Reasoning'},
+            {'id': 'google/gemini-pro-1.5', 'name': 'Gemini Pro 1.5', 'description': 'Google\'s advanced model with 1M+ context window', 'price': '$7.00/M tokens', 'category': 'General Chat'},
+            {'id': 'meta-llama/llama-3.1-405b-instruct', 'name': 'Llama 3.1 405B', 'description': 'Meta\'s largest and most capable open-source model', 'price': '$3.50/M tokens', 'category': 'General Chat'}
+        ]
     }
 
     @app.route('/')
@@ -284,17 +292,24 @@ def create_app():
             if not model_id or not model_name:
                 return jsonify({'success': False, 'error': 'Model ID and name are required'})
 
+            # Validate model ID format
+            if not model_id.strip() or len(model_id.strip()) < 3:
+                return jsonify({'success': False, 'error': 'Model ID must be at least 3 characters long'})
+
             # Check if model already exists
-            existing_model = AIModel.query.filter_by(official_name=model_id).first()
+            existing_model = AIModel.query.filter_by(official_name=model_id.strip()).first()
             if existing_model:
-                return jsonify({'success': False, 'error': 'Model already exists'})
+                return jsonify({'success': False, 'error': f'Model "{model_id}" already exists in your dashboard'})
 
             config = get_setup_config()
             api_key = config.get('api_key')
 
+            if not api_key:
+                return jsonify({'success': False, 'error': 'OpenRouter API key not configured. Please check settings.'})
+
             new_model = AIModel(
-                name=model_name,
-                official_name=model_id,
+                name=model_name.strip(),
+                official_name=model_id.strip(),
                 api_key=api_key,
                 is_active=True
             )
@@ -302,10 +317,15 @@ def create_app():
             db.session.add(new_model)
             db.session.commit()
 
-            return jsonify({'success': True, 'message': f'Model {model_name} added successfully'})
+            return jsonify({
+                'success': True,
+                'message': f'✅ {model_name} added successfully! You can now test it or use it in Discord.',
+                'model_id': new_model.id
+            })
 
         except Exception as e:
-            return jsonify({'success': False, 'error': str(e)})
+            db.session.rollback()
+            return jsonify({'success': False, 'error': f'Database error: {str(e)}'})
 
     @app.route('/toggle_model/<int:model_id>', methods=['POST'])
     @setup_required
@@ -313,11 +333,19 @@ def create_app():
     def toggle_model(model_id):
         try:
             model = AIModel.query.get_or_404(model_id)
+            old_status = model.is_active
             model.is_active = not model.is_active
             db.session.commit()
-            return jsonify({'success': True, 'is_active': model.is_active})
+
+            status_text = "enabled" if model.is_active else "disabled"
+            return jsonify({
+                'success': True,
+                'is_active': model.is_active,
+                'message': f'{model.name} has been {status_text}'
+            })
         except Exception as e:
-            return jsonify({'success': False, 'error': str(e)})
+            db.session.rollback()
+            return jsonify({'success': False, 'error': f'Failed to toggle model: {str(e)}'})
 
     @app.route('/delete_model/<int:model_id>', methods=['POST'])
     @setup_required
@@ -325,11 +353,13 @@ def create_app():
     def delete_model(model_id):
         try:
             model = AIModel.query.get_or_404(model_id)
+            model_name = model.name
             db.session.delete(model)
             db.session.commit()
-            return jsonify({'success': True, 'message': f'Model {model.name} deleted successfully'})
+            return jsonify({'success': True, 'message': f'🗑️ {model_name} has been permanently deleted'})
         except Exception as e:
-            return jsonify({'success': False, 'error': str(e)})
+            db.session.rollback()
+            return jsonify({'success': False, 'error': f'Failed to delete model: {str(e)}'})
 
     @app.route('/test_model/<int:model_id>', methods=['POST'])
     @setup_required
@@ -340,22 +370,46 @@ def create_app():
             test_message = request.json.get('message', 'Hello, how are you?')
 
             client = OpenRouterClient(model.api_key)
-            response = client.generate_response(model.official_name, test_message)
+
+            # Enhanced system prompt for better testing
+            system_prompt = "You are a helpful AI assistant. Respond in a friendly and informative way. If this is a test message, acknowledge it and demonstrate your capabilities."
+
+            response = client.generate_response(model.official_name, test_message, system_prompt)
 
             if response:
                 return jsonify({
                     'success': True,
-                    'response': response,
-                    'model_name': model.name
+                    'response': response.strip(),
+                    'model_name': model.name,
+                    'model_id': model.official_name
                 })
             else:
+                # More specific error handling
+                error_msg = f'No response from {model.name}. This could be due to:'
+                if 'gemini' in model.official_name.lower():
+                    error_msg += ' API key issues, model availability, or content policy restrictions.'
+                elif 'gpt' in model.official_name.lower():
+                    error_msg += ' API quota limits, invalid API key, or model deprecation.'
+                else:
+                    error_msg += ' API connectivity issues, model unavailability, or configuration problems.'
+
                 return jsonify({
                     'success': False,
-                    'error': 'Failed to get response from model'
+                    'error': error_msg
                 })
 
         except Exception as e:
-            return jsonify({'success': False, 'error': str(e)})
+            error_detail = str(e)
+            if 'rate limit' in error_detail.lower():
+                error_msg = f'Rate limit exceeded for {model.name}. Please try again later.'
+            elif 'unauthorized' in error_detail.lower():
+                error_msg = f'API key invalid for {model.name}. Please check your OpenRouter API key.'
+            elif 'not found' in error_detail.lower():
+                error_msg = f'Model {model.name} not found. It may have been discontinued.'
+            else:
+                error_msg = f'Error testing {model.name}: {error_detail}'
+
+            return jsonify({'success': False, 'error': error_msg})
 
     @app.route('/health')
     def health():

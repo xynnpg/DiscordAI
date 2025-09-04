@@ -5,10 +5,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Discord AI Bot - Setup</title>
         <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
             rel="stylesheet"
         />
         <style>
+            :root {
+                --discord-bg: #1e1f22;
+                --discord-surface: #2b2d31;
+                --discord-surface-light: #313338;
+                --discord-primary: #5865f2;
+                --discord-primary-hover: #4752c4;
+                --discord-success: #23a559;
+                --discord-danger: #f23f42;
+                --discord-warning: #f0b232;
+                --discord-text-primary: #f2f3f5;
+                --discord-text-secondary: #b5bac1;
+                --discord-text-muted: #80848e;
+                --discord-border: #3f4147;
+                --shadow-light: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+                --shadow-medium: 0 4px 25px 0 rgba(0, 0, 0, 0.3);
+                --shadow-heavy: 0 8px 40px 0 rgba(0, 0, 0, 0.4);
+            }
+
             * {
                 margin: 0;
                 padding: 0;
@@ -16,13 +38,20 @@
             }
 
             body {
-                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-                background: #36393f;
-                color: #dcddde;
+                font-family:
+                    "Inter",
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    sans-serif;
+                background: var(--discord-bg);
+                color: var(--discord-text-primary);
                 min-height: 100vh;
+                line-height: 1.5;
                 overflow-x: hidden;
             }
 
+            /* Animated Background */
             .animated-bg {
                 position: fixed;
                 top: 0;
@@ -31,14 +60,14 @@
                 height: 100%;
                 background: linear-gradient(
                     -45deg,
-                    #2c2f33,
-                    #23272a,
-                    #36393f,
-                    #40444b
+                    #1e1f22,
+                    #2b2d31,
+                    #313338,
+                    #23272a
                 );
                 background-size: 400% 400%;
                 animation: gradientShift 15s ease infinite;
-                z-index: -1;
+                z-index: -2;
             }
 
             @keyframes gradientShift {
@@ -53,254 +82,372 @@
                 }
             }
 
-            .container {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 20px;
+            /* Floating Elements */
+            .floating-elements {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                overflow: hidden;
+            }
+
+            .floating-element {
+                position: absolute;
+                opacity: 0.1;
+                animation: float 20s linear infinite;
+            }
+
+            .floating-element:nth-child(1) {
+                top: 10%;
+                left: 10%;
+                animation-delay: 0s;
+            }
+            .floating-element:nth-child(2) {
+                top: 20%;
+                right: 10%;
+                animation-delay: -5s;
+            }
+            .floating-element:nth-child(3) {
+                bottom: 20%;
+                left: 15%;
+                animation-delay: -10s;
+            }
+            .floating-element:nth-child(4) {
+                bottom: 10%;
+                right: 20%;
+                animation-delay: -15s;
+            }
+
+            @keyframes float {
+                0%,
+                100% {
+                    transform: translateY(0px) rotate(0deg);
+                }
+                25% {
+                    transform: translateY(-20px) rotate(5deg);
+                }
+                50% {
+                    transform: translateY(-10px) rotate(-5deg);
+                }
+                75% {
+                    transform: translateY(-15px) rotate(3deg);
+                }
+            }
+
+            /* Setup Container */
+            .setup-container {
                 min-height: 100vh;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                padding: 2rem;
             }
 
             .setup-card {
-                background: #2f3136;
-                border-radius: 8px;
-                padding: 40px;
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+                background: var(--discord-surface);
+                border-radius: 20px;
+                padding: 3rem;
+                max-width: 600px;
                 width: 100%;
-                max-width: 500px;
+                box-shadow: var(--shadow-heavy);
+                border: 1px solid var(--discord-border);
                 position: relative;
+                backdrop-filter: blur(10px);
             }
 
-            .logo-container {
+            .setup-card::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(
+                    90deg,
+                    var(--discord-primary),
+                    #7289da,
+                    var(--discord-success)
+                );
+                border-radius: 20px 20px 0 0;
+            }
+
+            /* Header */
+            .setup-header {
                 text-align: center;
-                margin-bottom: 30px;
+                margin-bottom: 3rem;
             }
 
             .logo {
-                font-size: 4rem;
-                color: #5865f2;
-                margin-bottom: 15px;
-                animation: bounce 2s infinite;
-            }
-
-            @keyframes bounce {
-                0%,
-                20%,
-                50%,
-                80%,
-                100% {
-                    transform: translateY(0);
-                }
-                40% {
-                    transform: translateY(-10px);
-                }
-                60% {
-                    transform: translateY(-5px);
-                }
-            }
-
-            .logo-text {
-                font-size: 2rem;
+                display: inline-flex;
+                align-items: center;
+                gap: 1rem;
+                font-size: 2.5rem;
                 font-weight: 700;
-                color: #ffffff;
-                margin-bottom: 10px;
+                color: var(--discord-primary);
+                margin-bottom: 1rem;
             }
 
-            .subtitle {
-                color: #b9bbbe;
-                font-size: 1rem;
+            .setup-title {
+                font-size: 2rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                background: linear-gradient(
+                    135deg,
+                    var(--discord-primary),
+                    #7289da
+                );
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
             }
 
-            .setup-step {
+            .setup-subtitle {
+                color: var(--discord-text-secondary);
+                font-size: 1.1rem;
+            }
+
+            /* Steps */
+            .steps-container {
+                margin-bottom: 2rem;
+            }
+
+            .step {
                 display: none;
+                animation: slideIn 0.5s ease;
             }
 
-            .setup-step.active {
+            .step.active {
                 display: block;
-                animation: fadeInUp 0.5s ease;
             }
 
-            @keyframes fadeInUp {
+            @keyframes slideIn {
                 from {
                     opacity: 0;
-                    transform: translateY(20px);
+                    transform: translateX(20px);
                 }
                 to {
                     opacity: 1;
-                    transform: translateY(0);
+                    transform: translateX(0);
                 }
             }
 
+            .step-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid var(--discord-border);
+            }
+
+            .step-number {
+                width: 48px;
+                height: 48px;
+                background: var(--discord-primary);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 1.25rem;
+            }
+
+            .step-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+            }
+
+            /* Form Styles */
             .form-group {
-                margin-bottom: 20px;
+                margin-bottom: 2rem;
             }
 
             .form-label {
                 display: block;
-                margin-bottom: 8px;
-                color: #b9bbbe;
+                margin-bottom: 0.75rem;
                 font-weight: 500;
-                font-size: 0.875rem;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
+                color: var(--discord-text-primary);
+                font-size: 1rem;
             }
 
             .form-input {
                 width: 100%;
-                padding: 12px;
-                background: #40444b;
-                border: 1px solid #40444b;
-                border-radius: 4px;
-                color: #dcddde;
+                padding: 1rem 1.25rem;
+                border: 2px solid var(--discord-border);
+                border-radius: 12px;
+                background: var(--discord-surface-light);
+                color: var(--discord-text-primary);
                 font-size: 1rem;
                 transition: all 0.3s ease;
             }
 
             .form-input:focus {
                 outline: none;
-                border-color: #5865f2;
-                box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.2);
+                border-color: var(--discord-primary);
+                box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.1);
             }
 
-            .btn {
-                padding: 12px 24px;
-                border: none;
-                border-radius: 4px;
-                font-weight: 600;
+            .form-help {
+                margin-top: 0.5rem;
+                font-size: 0.9rem;
+                color: var(--discord-text-muted);
+            }
+
+            /* Model Selection */
+            .model-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .model-card {
+                background: var(--discord-surface-light);
+                border: 2px solid var(--discord-border);
+                border-radius: 12px;
+                padding: 1.5rem;
                 cursor: pointer;
-                transition: all 0.3s ease;
-                text-decoration: none;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+            }
+
+            .model-card:hover {
+                border-color: var(--discord-primary);
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-medium);
+            }
+
+            .model-card.selected {
+                border-color: var(--discord-success);
+                background: linear-gradient(
+                    135deg,
+                    var(--discord-surface-light),
+                    rgba(35, 165, 89, 0.1)
+                );
+            }
+
+            .model-card.selected::after {
+                content: "✓";
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                width: 24px;
+                height: 24px;
+                background: var(--discord-success);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 0.9rem;
+            }
+
+            .model-name {
+                font-size: 1.1rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .model-description {
+                font-size: 0.9rem;
+                color: var(--discord-text-secondary);
+                margin-bottom: 0.75rem;
+                line-height: 1.4;
+            }
+
+            .model-category {
                 display: inline-block;
-                text-align: center;
+                background: var(--discord-primary);
+                color: white;
+                padding: 0.25rem 0.75rem;
+                border-radius: 20px;
+                font-size: 0.75rem;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            /* Buttons */
+            .btn {
+                padding: 1rem 2rem;
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                font-weight: 600;
                 font-size: 1rem;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                display: inline-flex;
+                align-items: center;
+                gap: 0.75rem;
+                text-decoration: none;
+                justify-content: center;
             }
 
             .btn-primary {
-                background: #5865f2;
+                background: var(--discord-primary);
                 color: white;
             }
 
             .btn-primary:hover {
-                background: #4752c4;
-                transform: translateY(-1px);
+                background: var(--discord-primary-hover);
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-medium);
             }
 
             .btn-primary:disabled {
-                background: #4f545c;
+                opacity: 0.6;
                 cursor: not-allowed;
                 transform: none;
             }
 
             .btn-secondary {
-                background: #4f545c;
-                color: #dcddde;
+                background: var(--discord-surface-light);
+                color: var(--discord-text-primary);
+                border: 2px solid var(--discord-border);
             }
 
             .btn-secondary:hover {
-                background: #5d6269;
+                background: var(--discord-border);
             }
 
-            .btn-success {
-                background: #57f287;
-                color: #000;
+            .btn-actions {
+                display: flex;
+                gap: 1rem;
+                justify-content: flex-end;
+                margin-top: 2rem;
             }
 
-            .btn-success:hover {
-                background: #46e56a;
-            }
-
-            .btn-full {
-                width: 100%;
-            }
-
-            .model-grid {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 10px;
-                max-height: 300px;
-                overflow-y: auto;
-                padding: 10px 0;
-            }
-
-            .model-card {
-                background: #40444b;
-                padding: 15px;
-                border-radius: 6px;
-                border: 2px solid transparent;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-
-            .model-card:hover {
-                border-color: #5865f2;
-            }
-
-            .model-card.selected {
-                border-color: #57f287;
-                background: #3e5e47;
-            }
-
-            .model-name {
-                font-weight: 600;
-                margin-bottom: 5px;
-            }
-
-            .model-description {
-                font-size: 0.875rem;
-                color: #b9bbbe;
-            }
-
-            .section-title {
-                color: #ffffff;
-                font-size: 1.25rem;
-                font-weight: 700;
-                margin: 20px 0 10px 0;
-                padding-bottom: 10px;
-                border-bottom: 2px solid #5865f2;
-            }
-
+            /* Progress Bar */
             .progress-bar {
                 width: 100%;
-                height: 4px;
-                background: #40444b;
-                border-radius: 2px;
-                margin-bottom: 20px;
+                height: 6px;
+                background: var(--discord-surface-light);
+                border-radius: 3px;
+                margin-bottom: 2rem;
                 overflow: hidden;
             }
 
             .progress-fill {
                 height: 100%;
-                background: #5865f2;
+                background: linear-gradient(
+                    90deg,
+                    var(--discord-primary),
+                    #7289da
+                );
                 transition: width 0.5s ease;
+                border-radius: 3px;
             }
 
-            .error-message {
-                background: #ed4245;
-                color: white;
-                padding: 10px;
-                border-radius: 4px;
-                margin-bottom: 20px;
-                display: none;
-            }
-
-            .success-message {
-                background: #57f287;
-                color: #000;
-                padding: 10px;
-                border-radius: 4px;
-                margin-bottom: 20px;
-                display: none;
-            }
-
+            /* Loading Animation */
             .loading {
                 display: inline-block;
                 width: 20px;
                 height: 20px;
-                border: 3px solid #40444b;
+                border: 3px solid rgba(255, 255, 255, 0.3);
                 border-radius: 50%;
-                border-top-color: #5865f2;
+                border-top-color: white;
                 animation: spin 1s ease-in-out infinite;
             }
 
@@ -310,421 +457,462 @@
                 }
             }
 
-            .step-buttons {
-                display: flex;
-                gap: 10px;
-                margin-top: 30px;
-            }
-
-            .model-type-toggle {
-                display: flex;
-                background: #40444b;
-                border-radius: 4px;
-                margin-bottom: 20px;
-            }
-
-            .model-type-btn {
-                flex: 1;
-                padding: 10px;
-                background: transparent;
-                border: none;
-                color: #b9bbbe;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-
-            .model-type-btn.active {
-                background: #5865f2;
+            /* Notification */
+            .notification {
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: var(--discord-danger);
                 color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                box-shadow: var(--shadow-heavy);
+                z-index: 1000;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .notification.show {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .notification.success {
+                background: var(--discord-success);
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .setup-container {
+                    padding: 1rem;
+                }
+
+                .setup-card {
+                    padding: 2rem;
+                }
+
+                .model-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .btn-actions {
+                    flex-direction: column;
+                }
             }
         </style>
     </head>
     <body>
+        <!-- Animated Background -->
         <div class="animated-bg"></div>
 
-        <div class="container">
+        <!-- Floating Elements -->
+        <div class="floating-elements">
+            <i
+                class="fas fa-robot floating-element"
+                style="font-size: 3rem"
+            ></i>
+            <i
+                class="fas fa-brain floating-element"
+                style="font-size: 2.5rem"
+            ></i>
+            <i
+                class="fas fa-comments floating-element"
+                style="font-size: 2rem"
+            ></i>
+            <i
+                class="fas fa-magic floating-element"
+                style="font-size: 2.5rem"
+            ></i>
+        </div>
+
+        <div class="setup-container">
             <div class="setup-card">
+                <!-- Header -->
+                <div class="setup-header">
+                    <div class="logo">
+                        <i class="fas fa-robot"></i>
+                        Discord AI Bot
+                    </div>
+                    <h1 class="setup-title">Welcome to Setup</h1>
+                    <p class="setup-subtitle">
+                        Let's configure your AI-powered Discord bot in just a
+                        few steps
+                    </p>
+                </div>
+
+                <!-- Progress Bar -->
                 <div class="progress-bar">
                     <div
                         class="progress-fill"
                         id="progressFill"
-                        style="width: 25%"
+                        style="width: 33%"
                     ></div>
                 </div>
 
-                <div class="error-message" id="errorMessage"></div>
-                <div class="success-message" id="successMessage"></div>
-
-                <!-- Step 1: Welcome -->
-                <div class="setup-step active" id="step1">
-                    <div class="logo-container">
-                        <div class="logo">
-                            <i class="fab fa-discord"></i>
+                <!-- Steps -->
+                <div class="steps-container">
+                    <!-- Step 1: Password Setup -->
+                    <div class="step active" id="step1">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Security Setup</div>
                         </div>
-                        <div class="logo-text">Discord AI Bot</div>
-                        <div class="subtitle">Welcome to the setup wizard</div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="password"
+                                >Create Admin Password</label
+                            >
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-input"
+                                placeholder="Enter a secure password"
+                                required
+                            />
+                            <div class="form-help">
+                                This password will be used to access the web
+                                dashboard
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="confirmPassword"
+                                >Confirm Password</label
+                            >
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                class="form-input"
+                                placeholder="Confirm your password"
+                                required
+                            />
+                        </div>
                     </div>
 
-                    <div class="step-buttons">
-                        <button
-                            class="btn btn-primary btn-full"
-                            onclick="nextStep(2)"
+                    <!-- Step 2: API Key Setup -->
+                    <div class="step" id="step2">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div class="step-title">OpenRouter API Key</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="apiKey"
+                                >OpenRouter API Key</label
+                            >
+                            <input
+                                type="password"
+                                id="apiKey"
+                                class="form-input"
+                                placeholder="sk-or-v1-..."
+                                required
+                            />
+                            <div class="form-help">
+                                Get your API key from
+                                <a
+                                    href="https://openrouter.ai/"
+                                    target="_blank"
+                                    style="color: var(--discord-primary)"
+                                    >openrouter.ai</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Model Selection -->
+                    <div class="step" id="step3">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Choose Your AI Models</div>
+                        </div>
+
+                        <p
+                            style="
+                                color: var(--discord-text-secondary);
+                                margin-bottom: 1.5rem;
+                            "
                         >
-                            Let's Start <i class="fas fa-arrow-right"></i>
-                        </button>
+                            Select the AI models you'd like to use. You can
+                            always add more later!
+                        </p>
+
+                        <div class="model-grid" id="modelGrid">
+                            <!-- Models will be populated by JavaScript -->
+                        </div>
                     </div>
                 </div>
 
-                <!-- Step 2: Password Setup -->
-                <div class="setup-step" id="step2">
-                    <h2 class="section-title">Set Your Password</h2>
-                    <p style="margin-bottom: 20px; color: #b9bbbe">
-                        Create a secure password to protect your bot
-                        configuration.
-                    </p>
-
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <input
-                            type="password"
-                            class="form-input"
-                            id="password"
-                            placeholder="Enter your password"
-                        />
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Confirm Password</label>
-                        <input
-                            type="password"
-                            class="form-input"
-                            id="confirmPassword"
-                            placeholder="Confirm your password"
-                        />
-                    </div>
-
-                    <div class="step-buttons">
-                        <button
-                            class="btn btn-secondary"
-                            onclick="previousStep(1)"
-                        >
-                            <i class="fas fa-arrow-left"></i> Back
-                        </button>
-                        <button class="btn btn-primary" onclick="nextStep(3)">
-                            Next <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Step 3: API Key Setup -->
-                <div class="setup-step" id="step3">
-                    <h2 class="section-title">OpenRouter API Key</h2>
-                    <p style="margin-bottom: 20px; color: #b9bbbe">
-                        Enter your OpenRouter API key. This will be used for all
-                        AI models.
-                        <a
-                            href="https://openrouter.ai/keys"
-                            target="_blank"
-                            style="color: #5865f2"
-                            >Get your API key here</a
-                        >
-                    </p>
-
-                    <div class="form-group">
-                        <label class="form-label">API Key</label>
-                        <input
-                            type="password"
-                            class="form-input"
-                            id="apiKey"
-                            placeholder="sk-or-v1-..."
-                        />
-                    </div>
-
-                    <div class="step-buttons">
-                        <button
-                            class="btn btn-secondary"
-                            onclick="previousStep(2)"
-                        >
-                            <i class="fas fa-arrow-left"></i> Back
-                        </button>
-                        <button class="btn btn-primary" onclick="nextStep(4)">
-                            Next <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Step 4: Model Selection -->
-                <div class="setup-step" id="step4">
-                    <h2 class="section-title">Select AI Models</h2>
-                    <p style="margin-bottom: 20px; color: #b9bbbe">
-                        Choose which AI models you want to enable. You can
-                        change this later.
-                    </p>
-
-                    <div class="model-type-toggle">
-                        <button
-                            class="model-type-btn active"
-                            onclick="showModelType('free')"
-                            id="freeBtn"
-                        >
-                            <i class="fas fa-gift"></i> Free Models
-                        </button>
-                        <button
-                            class="model-type-btn"
-                            onclick="showModelType('paid')"
-                            id="paidBtn"
-                        >
-                            <i class="fas fa-crown"></i> Paid Models
-                        </button>
-                    </div>
-
-                    <div class="model-grid" id="freeModels">
-                        <!-- Free models will be populated by JavaScript -->
-                    </div>
-
-                    <div
-                        class="model-grid"
-                        id="paidModels"
+                <!-- Actions -->
+                <div class="btn-actions">
+                    <button
+                        class="btn btn-secondary"
+                        id="backBtn"
+                        onclick="previousStep()"
                         style="display: none"
                     >
-                        <!-- Paid models will be populated by JavaScript -->
-                    </div>
-
-                    <div class="step-buttons">
-                        <button
-                            class="btn btn-secondary"
-                            onclick="previousStep(3)"
-                        >
-                            <i class="fas fa-arrow-left"></i> Back
-                        </button>
-                        <button
-                            class="btn btn-success"
-                            onclick="completeSetup()"
-                            id="finishBtn"
-                        >
-                            <span id="finishBtnText">Complete Setup</span>
-                            <i class="fas fa-check"></i>
-                        </button>
-                    </div>
+                        <i class="fas fa-arrow-left"></i>
+                        Back
+                    </button>
+                    <button
+                        class="btn btn-primary"
+                        id="nextBtn"
+                        onclick="nextStep()"
+                    >
+                        Next
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
 
+        <!-- Notification -->
+        <div class="notification" id="notification"></div>
+
         <script>
-            // Model definitions with single Dolphin Mistral model
-            const models = {
-                free: [
-                    {
-                        id: "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
-                        name: "Dolphin Mistral 24B",
-                        description:
-                            "High-quality uncensored conversational model",
-                        price: "FREE",
-                    },
-                ],
-                paid: [],
-            };
-
-            let selectedModels = new Set();
             let currentStep = 1;
+            const totalSteps = 3;
+            const selectedModels = [];
 
-            // Initialize models
-            function initializeModels() {
-                populateModels("free", document.getElementById("freeModels"));
-                populateModels("paid", document.getElementById("paidModels"));
-            }
+            // Available models
+            const freeModels = [
+                {
+                    id: "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+                    name: "Dolphin Mistral 24B",
+                    description:
+                        "High-quality uncensored conversational model with excellent reasoning",
+                    category: "General Chat",
+                },
+                {
+                    id: "google/gemini-2.5-flash-image-preview:free",
+                    name: "Gemini 2.5 Flash Image",
+                    description:
+                        "Google's multimodal model with image analysis and generation capabilities",
+                    category: "Multimodal",
+                },
+                {
+                    id: "deepseek/deepseek-r1-0528:free",
+                    name: "DeepSeek R1",
+                    description:
+                        "Advanced reasoning model with strong analytical capabilities",
+                    category: "Reasoning",
+                },
+                {
+                    id: "meta-llama/llama-4-maverick:free",
+                    name: "Llama 4 Maverick",
+                    description:
+                        "Meta's latest Llama 4 variant with enhanced conversational abilities",
+                    category: "General Chat",
+                },
+                {
+                    id: "mistralai/devstral-small-2505:free",
+                    name: "Devstral Small",
+                    description:
+                        "Code-optimized model for development and programming tasks",
+                    category: "Code",
+                },
+            ];
 
-            function populateModels(type, container) {
-                container.innerHTML = "";
-                models[type].forEach((model) => {
-                    const modelCard = document.createElement("div");
-                    modelCard.className = "model-card";
-                    modelCard.onclick = () => toggleModel(model, modelCard);
+            function showNotification(message, type = "error") {
+                const notification = document.getElementById("notification");
+                notification.textContent = message;
+                notification.className = `notification ${type} show`;
 
-                    modelCard.innerHTML = `
-                    <div class="model-name">${model.name}</div>
-                    <div class="model-description">${model.description}</div>
-                    <div class="model-price" style="color: ${type === "free" ? "#57f287" : "#faa61a"}; font-weight: 600; font-size: 0.75rem; margin-top: 5px;">${model.price}</div>
-                `;
-
-                    container.appendChild(modelCard);
-                });
-            }
-
-            function toggleModel(model, card) {
-                const modelKey = `${model.id}|${model.name}`;
-                if (selectedModels.has(modelKey)) {
-                    selectedModels.delete(modelKey);
-                    card.classList.remove("selected");
-                } else {
-                    selectedModels.add(modelKey);
-                    card.classList.add("selected");
-                }
-            }
-
-            function showModelType(type) {
-                document.getElementById("freeModels").style.display =
-                    type === "free" ? "block" : "none";
-                document.getElementById("paidModels").style.display =
-                    type === "paid" ? "block" : "none";
-
-                document
-                    .getElementById("freeBtn")
-                    .classList.toggle("active", type === "free");
-                document
-                    .getElementById("paidBtn")
-                    .classList.toggle("active", type === "paid");
-            }
-
-            function showError(message) {
-                const errorEl = document.getElementById("errorMessage");
-                errorEl.textContent = message;
-                errorEl.style.display = "block";
                 setTimeout(() => {
-                    errorEl.style.display = "none";
+                    notification.classList.remove("show");
                 }, 5000);
             }
 
-            function showSuccess(message) {
-                const successEl = document.getElementById("successMessage");
-                successEl.textContent = message;
-                successEl.style.display = "block";
+            function updateProgress() {
+                const progress = (currentStep / totalSteps) * 100;
+                document.getElementById("progressFill").style.width =
+                    `${progress}%`;
             }
 
-            function nextStep(step) {
-                // Validate current step
-                if (currentStep === 2) {
+            function showStep(step) {
+                document
+                    .querySelectorAll(".step")
+                    .forEach((s) => s.classList.remove("active"));
+                document.getElementById(`step${step}`).classList.add("active");
+
+                const backBtn = document.getElementById("backBtn");
+                const nextBtn = document.getElementById("nextBtn");
+
+                backBtn.style.display = step > 1 ? "inline-flex" : "none";
+
+                if (step === totalSteps) {
+                    nextBtn.innerHTML =
+                        '<div class="loading" id="setupLoading" style="display: none;"></div><span id="setupText">Complete Setup</span><i class="fas fa-check"></i>';
+                    nextBtn.onclick = completeSetup;
+                } else {
+                    nextBtn.innerHTML =
+                        'Next<i class="fas fa-arrow-right"></i>';
+                    nextBtn.onclick = nextStep;
+                }
+
+                // Populate model grid on step 3
+                if (step === 3) {
+                    populateModelGrid();
+                }
+
+                updateProgress();
+            }
+
+            function nextStep() {
+                if (validateCurrentStep()) {
+                    if (currentStep < totalSteps) {
+                        currentStep++;
+                        showStep(currentStep);
+                    }
+                }
+            }
+
+            function previousStep() {
+                if (currentStep > 1) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            }
+
+            function validateCurrentStep() {
+                if (currentStep === 1) {
                     const password = document.getElementById("password").value;
                     const confirmPassword =
                         document.getElementById("confirmPassword").value;
 
-                    if (!password || !confirmPassword) {
-                        showError("Please fill in both password fields");
-                        return;
+                    if (!password || password.length < 6) {
+                        showNotification(
+                            "Password must be at least 6 characters long",
+                        );
+                        return false;
                     }
 
                     if (password !== confirmPassword) {
-                        showError("Passwords do not match");
-                        return;
+                        showNotification("Passwords do not match");
+                        return false;
                     }
-
-                    if (password.length < 6) {
-                        showError(
-                            "Password must be at least 6 characters long",
-                        );
-                        return;
-                    }
-                }
-
-                if (currentStep === 3) {
+                } else if (currentStep === 2) {
                     const apiKey = document.getElementById("apiKey").value;
+
                     if (!apiKey || !apiKey.startsWith("sk-or-v1-")) {
-                        showError("Please enter a valid OpenRouter API key");
-                        return;
+                        showNotification(
+                            "Please enter a valid OpenRouter API key",
+                        );
+                        return false;
                     }
                 }
 
-                // Hide current step
-                document
-                    .getElementById(`step${currentStep}`)
-                    .classList.remove("active");
-
-                // Show next step
-                currentStep = step;
-                document
-                    .getElementById(`step${currentStep}`)
-                    .classList.add("active");
-
-                // Update progress
-                const progress = (currentStep / 4) * 100;
-                document.getElementById("progressFill").style.width =
-                    `${progress}%`;
+                return true;
             }
 
-            function previousStep(step) {
-                document
-                    .getElementById(`step${currentStep}`)
-                    .classList.remove("active");
-                currentStep = step;
-                document
-                    .getElementById(`step${currentStep}`)
-                    .classList.add("active");
+            function populateModelGrid() {
+                const grid = document.getElementById("modelGrid");
+                grid.innerHTML = "";
 
-                const progress = (currentStep / 4) * 100;
-                document.getElementById("progressFill").style.width =
-                    `${progress}%`;
+                freeModels.forEach((model) => {
+                    const card = document.createElement("div");
+                    card.className = "model-card";
+                    card.onclick = () => toggleModel(model, card);
+
+                    card.innerHTML = `
+                    <div class="model-name">${model.name}</div>
+                    <div class="model-description">${model.description}</div>
+                    <div class="model-category">${model.category}</div>
+                `;
+
+                    grid.appendChild(card);
+                });
+            }
+
+            function toggleModel(model, cardElement) {
+                const index = selectedModels.findIndex(
+                    (m) => m.id === model.id,
+                );
+
+                if (index > -1) {
+                    selectedModels.splice(index, 1);
+                    cardElement.classList.remove("selected");
+                } else {
+                    selectedModels.push({ ...model, enabled: true });
+                    cardElement.classList.add("selected");
+                }
             }
 
             async function completeSetup() {
-                const password = document.getElementById("password").value;
-                const confirmPassword =
-                    document.getElementById("confirmPassword").value;
-                const apiKey = document.getElementById("apiKey").value;
-
-                if (!password || !confirmPassword || !apiKey) {
-                    showError("Please complete all previous steps");
+                if (selectedModels.length === 0) {
+                    showNotification(
+                        "Please select at least one AI model to continue",
+                    );
                     return;
                 }
 
-                if (password !== confirmPassword) {
-                    showError("Passwords do not match");
-                    return;
-                }
+                const setupLoading = document.getElementById("setupLoading");
+                const setupText = document.getElementById("setupText");
+                const nextBtn = document.getElementById("nextBtn");
 
-                // Convert selected models to array
-                const selectedModelsArray = Array.from(selectedModels).map(
-                    (modelKey) => {
-                        const [id, name] = modelKey.split("|");
-                        return { id, name, enabled: true };
-                    },
-                );
-
-                // Show loading
-                const finishBtn = document.getElementById("finishBtn");
-                const finishBtnText = document.getElementById("finishBtnText");
-                finishBtn.disabled = true;
-                finishBtnText.innerHTML =
-                    '<span class="loading"></span> Setting up...';
+                setupLoading.style.display = "inline-block";
+                setupText.textContent = "Setting up...";
+                nextBtn.disabled = true;
 
                 try {
                     const response = await fetch("/complete_setup", {
                         method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+                        headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
-                            password: password,
-                            confirm_password: confirmPassword,
-                            api_key: apiKey,
-                            selected_models: selectedModelsArray,
+                            password: document.getElementById("password").value,
+                            confirm_password:
+                                document.getElementById("confirmPassword")
+                                    .value,
+                            api_key: document.getElementById("apiKey").value,
+                            selected_models: selectedModels,
                         }),
                     });
 
                     const data = await response.json();
 
                     if (data.success) {
-                        showSuccess(
+                        showNotification(
                             "Setup completed successfully! Redirecting...",
+                            "success",
                         );
                         setTimeout(() => {
-                            window.location.href = "/login";
+                            window.location.href = "/";
                         }, 2000);
                     } else {
-                        throw new Error(data.error || "Setup failed");
+                        showNotification(
+                            data.error || "Setup failed. Please try again.",
+                        );
+                        setupLoading.style.display = "none";
+                        setupText.textContent = "Complete Setup";
+                        nextBtn.disabled = false;
                     }
                 } catch (error) {
-                    showError(
-                        error.message || "Setup failed. Please try again.",
+                    showNotification(
+                        "Network error. Please check your connection and try again.",
                     );
-                    finishBtn.disabled = false;
-                    finishBtnText.innerHTML =
-                        'Complete Setup <i class="fas fa-check"></i>';
+                    setupLoading.style.display = "none";
+                    setupText.textContent = "Complete Setup";
+                    nextBtn.disabled = false;
                 }
             }
 
-            // Initialize when page loads
-            window.addEventListener("load", () => {
-                initializeModels();
+            // Initialize
+            document.addEventListener("DOMContentLoaded", function () {
+                updateProgress();
+
+                // Add Enter key support
+                document.addEventListener("keydown", function (e) {
+                    if (e.key === "Enter") {
+                        const nextBtn = document.getElementById("nextBtn");
+                        if (!nextBtn.disabled) {
+                            if (currentStep === totalSteps) {
+                                completeSetup();
+                            } else {
+                                nextStep();
+                            }
+                        }
+                    }
+                });
             });
         </script>
     </body>

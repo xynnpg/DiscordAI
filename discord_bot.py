@@ -145,9 +145,18 @@ class DiscordBot:
 
                     # Create OpenRouter client and generate response with context
                     client = OpenRouterClient(ai_model.api_key)
-                    response = client.generate_response(ai_model.official_name, content, conversation_history=conversation_history)
 
-                    if response:
+                    # Enhanced system prompt for better responses
+                    system_prompt = "You are a helpful AI assistant in a Discord server. Provide clear, concise, and engaging responses. If asked about images and you can't see them, politely explain your limitations."
+
+                    response = client.generate_response(
+                        model=ai_model.official_name,
+                        message=content,
+                        system_prompt=system_prompt,
+                        conversation_history=conversation_history
+                    )
+
+                    if response and response.strip():
                         # Store AI's response
                         ConversationHistory.add_message(user_id, "assistant", response, user_pref.model_name)
 
@@ -160,13 +169,30 @@ class DiscordBot:
                                 else:
                                     await interaction.followup.send(chunk)
                         else:
-                            await interaction.followup.send(f"🤖 **AI Response:**\n{response}")
+                            await interaction.followup.send(f"🤖 **{ai_model.name} Response:**\n{response}")
                     else:
-                        await interaction.followup.send("❌ Sorry, I couldn't generate a response. Please try again.")
+                        # More informative error message
+                        error_msg = f"❌ Sorry, **{ai_model.name}** couldn't generate a response. "
+                        if 'gemini' in ai_model.official_name.lower():
+                            error_msg += "This might be due to content policy restrictions or API limitations. Try rephrasing your question."
+                        elif 'gpt' in ai_model.official_name.lower():
+                            error_msg += "This might be due to API quota limits or temporary unavailability."
+                        else:
+                            error_msg += "Please try again or switch to a different model using `/change`."
+
+                        await interaction.followup.send(error_msg)
 
             except Exception as e:
                 print(f"Error in ask command: {e}")
-                await interaction.followup.send("❌ An error occurred while processing your request.")
+                error_detail = str(e)
+                if "rate limit" in error_detail.lower():
+                    await interaction.followup.send("⏱️ Rate limit reached. Please wait a moment and try again.")
+                elif "unauthorized" in error_detail.lower() or "api key" in error_detail.lower():
+                    await interaction.followup.send("🔑 API authentication failed. Please contact an administrator.")
+                elif "timeout" in error_detail.lower():
+                    await interaction.followup.send("⏰ Request timed out. The model might be overloaded. Try again in a moment.")
+                else:
+                    await interaction.followup.send("❌ An unexpected error occurred. Please try again or contact support.")
 
         @self.bot.tree.command(name="change", description="Change your preferred AI model")
         @app_commands.describe(model="The AI model you want to use")

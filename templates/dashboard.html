@@ -1,1318 +1,1413 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Discord AI Bot - Dashboard</title>
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-            rel="stylesheet"
-        />
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord AI Bot - Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --discord-bg: #1e1f22;
+            --discord-surface: #2b2d31;
+            --discord-surface-light: #313338;
+            --discord-primary: #5865f2;
+            --discord-primary-hover: #4752c4;
+            --discord-success: #23a559;
+            --discord-danger: #f23f42;
+            --discord-warning: #f0b232;
+            --discord-text-primary: #f2f3f5;
+            --discord-text-secondary: #b5bac1;
+            --discord-text-muted: #80848e;
+            --discord-border: #3f4147;
+            --shadow-light: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+            --shadow-medium: 0 4px 25px 0 rgba(0, 0, 0, 0.3);
+            --shadow-heavy: 0 8px 40px 0 rgba(0, 0, 0, 0.4);
+        }
 
-            body {
-                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-                background: #36393f;
-                color: #dcddde;
-                min-height: 100vh;
-            }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-            /* Header */
-            .header {
-                background: #2f3136;
-                padding: 15px 20px;
-                border-bottom: 1px solid #40444b;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                position: sticky;
-                top: 0;
-                z-index: 100;
-            }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--discord-bg);
+            color: var(--discord-text-primary);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
 
-            .header-left {
-                display: flex;
-                align-items: center;
-                gap: 15px;
-            }
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-            .logo {
-                color: #5865f2;
-                font-size: 1.5rem;
-            }
+        ::-webkit-scrollbar-track {
+            background: var(--discord-surface);
+        }
 
-            .header-title {
-                font-size: 1.25rem;
-                font-weight: 700;
-                color: #ffffff;
-            }
+        ::-webkit-scrollbar-thumb {
+            background: var(--discord-border);
+            border-radius: 4px;
+        }
 
-            .header-right {
-                display: flex;
-                align-items: center;
-                gap: 15px;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--discord-text-muted);
+        }
 
-            .user-menu {
-                position: relative;
-            }
+        /* Header */
+        .header {
+            background: var(--discord-surface);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--discord-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
 
-            .user-btn {
-                background: #40444b;
-                border: none;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                color: #dcddde;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
-            }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-            .user-btn:hover {
-                background: #5865f2;
-                color: white;
-            }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--discord-primary);
+        }
 
-            .dropdown {
-                position: absolute;
-                top: 50px;
-                right: 0;
-                background: #2f3136;
-                border-radius: 8px;
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-                min-width: 200px;
-                display: none;
-                z-index: 1000;
-            }
+        .logo i {
+            font-size: 2rem;
+        }
 
-            .dropdown.show {
-                display: block;
-                animation: fadeIn 0.3s ease;
-            }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-            @keyframes fadeIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(-10px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
+        .user-menu {
+            position: relative;
+        }
 
-            .dropdown-item {
-                padding: 12px 16px;
-                color: #dcddde;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                transition: background 0.3s ease;
-                border: none;
-                background: none;
-                width: 100%;
-                cursor: pointer;
-            }
+        .user-btn {
+            background: var(--discord-surface-light);
+            border: 2px solid transparent;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            color: var(--discord-text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.2rem;
+        }
 
-            .dropdown-item:hover {
-                background: #40444b;
-                color: #ffffff;
-            }
+        .user-btn:hover {
+            background: var(--discord-primary);
+            border-color: var(--discord-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
 
-            .dropdown-divider {
-                height: 1px;
-                background: #40444b;
-                margin: 8px 0;
-            }
+        .dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: var(--discord-surface);
+            border-radius: 12px;
+            box-shadow: var(--shadow-heavy);
+            min-width: 220px;
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            visibility: hidden;
+            z-index: 1001;
+            border: 1px solid var(--discord-border);
+        }
 
-            /* Main Content */
+        .dropdown.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            visibility: visible;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--discord-text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            margin: 0.25rem;
+        }
+
+        .dropdown-item:hover {
+            background: var(--discord-surface-light);
+            color: var(--discord-text-primary);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--discord-border);
+            margin: 0.5rem 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--discord-primary), #7289da);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--discord-text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        /* Model Sections */
+        .models-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .model-section {
+            background: var(--discord-surface);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--discord-border);
+            box-shadow: var(--shadow-light);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--discord-border);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .free-badge {
+            background: linear-gradient(135deg, var(--discord-success), #57f287);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .paid-badge {
+            background: linear-gradient(135deg, var(--discord-warning), #faa61a);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .add-model-btn {
+            background: var(--discord-primary);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .add-model-btn:hover {
+            background: var(--discord-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Model Grid */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .model-card {
+            background: var(--discord-surface-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 2px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .model-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--discord-primary), #7289da);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .model-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--discord-border);
+        }
+
+        .model-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .model-card.active {
+            border-color: var(--discord-success);
+            background: linear-gradient(135deg, var(--discord-surface-light), rgba(35, 165, 89, 0.1));
+        }
+
+        .model-card.inactive {
+            opacity: 0.7;
+        }
+
+        .model-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .model-info h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--discord-text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .model-id {
+            font-size: 0.85rem;
+            color: var(--discord-text-muted);
+            background: var(--discord-surface);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            word-break: break-all;
+        }
+
+        .model-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-active {
+            background: var(--discord-success);
+        }
+
+        .status-inactive {
+            background: var(--discord-text-muted);
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Model Actions */
+        .model-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 80px;
+            justify-content: center;
+        }
+
+        .toggle-btn.active {
+            background: var(--discord-success);
+            color: white;
+        }
+
+        .toggle-btn.inactive {
+            background: var(--discord-text-muted);
+            color: white;
+        }
+
+        .test-btn {
+            background: var(--discord-primary);
+            color: white;
+        }
+
+        .test-btn:hover {
+            background: var(--discord-primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .delete-btn {
+            background: var(--discord-danger);
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #da373c;
+            transform: translateY(-1px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--discord-text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Modals */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--discord-surface);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--discord-border);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--discord-border);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--discord-text-muted);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: var(--discord-surface-light);
+            color: var(--discord-text-primary);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--discord-text-primary);
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--discord-border);
+            border-radius: 8px;
+            background: var(--discord-surface-light);
+            color: var(--discord-text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--discord-primary);
+            box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.1);
+        }
+
+        .form-select option {
+            background: var(--discord-surface);
+            color: var(--discord-text-primary);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--discord-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--discord-primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--discord-surface-light);
+            color: var(--discord-text-primary);
+            border: 2px solid var(--discord-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--discord-border);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            z-index: 3000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-heavy);
+            max-width: 400px;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--discord-success);
+        }
+
+        .notification.error {
+            background: var(--discord-danger);
+        }
+
+        .notification.info {
+            background: var(--discord-primary);
+        }
+
+        /* Model Preview Cards */
+        .model-preview {
+            background: var(--discord-surface-light);
+            border: 2px dashed var(--discord-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--discord-text-secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .model-preview:hover {
+            border-color: var(--discord-primary);
+            background: rgba(88, 101, 242, 0.1);
+        }
+
+        .model-preview.selected {
+            border-color: var(--discord-success);
+            background: rgba(35, 165, 89, 0.1);
+            color: var(--discord-success);
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--discord-primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
             .main-content {
-                padding: 30px;
-                max-width: 1200px;
-                margin: 0 auto;
+                padding: 1rem;
             }
 
-            .page-header {
-                margin-bottom: 30px;
+            .models-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .model-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                justify-content: center;
+            }
+
+            .modal-content {
+                margin: 1rem;
+                width: calc(100% - 2rem);
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
             }
 
             .page-title {
                 font-size: 2rem;
-                font-weight: 700;
-                color: #ffffff;
-                margin-bottom: 10px;
-                display: flex;
-                align-items: center;
-                gap: 15px;
             }
-
-            .page-subtitle {
-                color: #b9bbbe;
-                font-size: 1rem;
-            }
-
-            /* Model Sections */
-            .models-container {
-                display: flex;
-                flex-direction: column;
-                gap: 40px;
-            }
-
-            .model-section {
-                background: #2f3136;
-                border-radius: 8px;
-                padding: 25px;
-                border: 1px solid #40444b;
-            }
-
-            .section-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-                padding-bottom: 15px;
-                border-bottom: 2px solid #40444b;
-            }
-
-            .section-title {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: #ffffff;
-            }
-
-            .free-title {
-                color: #57f287;
-            }
-            .paid-title {
-                color: #faa61a;
-            }
-
-            .section-badge {
-                background: #40444b;
-                color: #dcddde;
-                padding: 4px 12px;
-                border-radius: 12px;
-                font-size: 0.75rem;
-                font-weight: 600;
-            }
-
-            .add-model-btn {
-                background: #5865f2;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 8px 16px;
-                font-weight: 600;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                transition: all 0.3s ease;
-            }
-
-            .add-model-btn:hover {
-                background: #4752c4;
-                transform: translateY(-1px);
-            }
-
-            /* Model Grid */
-            .models-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                gap: 20px;
-            }
-
-            .model-card {
-                background: #40444b;
-                border-radius: 8px;
-                padding: 20px;
-                border: 2px solid transparent;
-                transition: all 0.3s ease;
-                position: relative;
-            }
-
-            .model-card:hover {
-                border-color: #5865f2;
-                transform: translateY(-2px);
-            }
-
-            .model-card.active {
-                border-color: #57f287;
-                background: #3e5e47;
-            }
-
-            .model-card.inactive {
-                border-color: #ed4245;
-                background: #5e3e3e;
-            }
-
-            .model-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 15px;
-            }
-
-            .model-info h3 {
-                color: #ffffff;
-                font-size: 1.125rem;
-                font-weight: 700;
-                margin-bottom: 5px;
-            }
-
-            .model-id {
-                color: #b9bbbe;
-                font-size: 0.875rem;
-                font-family: "Courier New", monospace;
-                background: #2f3136;
-                padding: 2px 6px;
-                border-radius: 4px;
-            }
-
-            .model-actions {
-                display: flex;
-                gap: 8px;
-            }
-
-            .action-btn {
-                width: 32px;
-                height: 32px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
-                font-size: 0.875rem;
-            }
-
-            .toggle-btn.active {
-                background: #57f287;
-                color: #000;
-            }
-
-            .toggle-btn.inactive {
-                background: #ed4245;
-                color: white;
-            }
-
-            .test-btn {
-                background: #5865f2;
-                color: white;
-            }
-
-            .test-btn:hover {
-                background: #4752c4;
-            }
-
-            .delete-btn {
-                background: #ed4245;
-                color: white;
-            }
-
-            .delete-btn:hover {
-                background: #c23a3d;
-            }
-
-            .model-status {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                margin-bottom: 15px;
-            }
-
-            .status-indicator {
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-            }
-
-            .status-active {
-                background: #57f287;
-            }
-            .status-inactive {
-                background: #ed4245;
-            }
-
-            .status-text {
-                font-size: 0.875rem;
-                font-weight: 600;
-            }
-
-            /* Empty State */
-            .empty-state {
-                text-align: center;
-                padding: 60px 20px;
-                color: #72767d;
-            }
-
-            .empty-state i {
-                font-size: 4rem;
-                margin-bottom: 20px;
-                opacity: 0.5;
-            }
-
-            .empty-state h3 {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
-
-            .empty-state p {
-                margin-bottom: 20px;
-            }
-
-            /* Modal Styles */
-            .modal {
-                display: none;
-                position: fixed;
-                z-index: 1000;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-            }
-
-            .modal.show {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                animation: fadeIn 0.3s ease;
-            }
-
-            .modal-content {
-                background: #2f3136;
-                padding: 30px;
-                border-radius: 8px;
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-                max-width: 500px;
-                width: 90%;
-                max-height: 80vh;
-                overflow-y: auto;
-            }
-
-            .modal-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-                padding-bottom: 15px;
-                border-bottom: 1px solid #40444b;
-            }
-
-            .modal-title {
-                color: #ffffff;
-                font-size: 1.25rem;
-                font-weight: 700;
-            }
-
-            .close-btn {
-                background: none;
-                border: none;
-                color: #b9bbbe;
-                font-size: 1.5rem;
-                cursor: pointer;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                transition: all 0.3s ease;
-            }
-
-            .close-btn:hover {
-                background: #40444b;
-                color: #dcddde;
-            }
-
-            /* Form Styles */
-            .form-group {
-                margin-bottom: 20px;
-            }
-
-            .form-label {
-                display: block;
-                margin-bottom: 8px;
-                color: #b9bbbe;
-                font-weight: 500;
-                font-size: 0.875rem;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-
-            .form-input,
-            .form-select {
-                width: 100%;
-                padding: 12px;
-                background: #40444b;
-                border: 1px solid #40444b;
-                border-radius: 4px;
-                color: #dcddde;
-                font-size: 1rem;
-                transition: all 0.3s ease;
-            }
-
-            .form-input:focus,
-            .form-select:focus {
-                outline: none;
-                border-color: #5865f2;
-                box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.2);
-            }
-
-            .form-select option {
-                background: #40444b;
-                color: #dcddde;
-            }
-
-            .btn {
-                padding: 12px 24px;
-                border: none;
-                border-radius: 4px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                text-decoration: none;
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .btn-primary {
-                background: #5865f2;
-                color: white;
-            }
-
-            .btn-primary:hover {
-                background: #4752c4;
-            }
-
-            .btn-secondary {
-                background: #4f545c;
-                color: #dcddde;
-            }
-
-            .btn-secondary:hover {
-                background: #5d6269;
-            }
-
-            .modal-actions {
-                display: flex;
-                gap: 10px;
-                justify-content: flex-end;
-                margin-top: 20px;
-            }
-
-            /* Notification */
-            .notification {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 20px;
-                border-radius: 8px;
-                color: white;
-                z-index: 1001;
-                opacity: 0;
-                transform: translateY(-20px);
-                transition: all 0.3s ease;
-            }
-
-            .notification.show {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            .notification.success {
-                background: #57f287;
-                color: #000;
-            }
-            .notification.error {
-                background: #ed4245;
-            }
-            .notification.info {
-                background: #5865f2;
-            }
-
-            /* Responsive Design */
-            @media (max-width: 768px) {
-                .header {
-                    padding: 10px 15px;
-                }
-
-                .header-title {
-                    font-size: 1rem;
-                }
-
-                .main-content {
-                    padding: 20px 15px;
-                }
-
-                .page-title {
-                    font-size: 1.5rem;
-                }
-
-                .models-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .section-header {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 15px;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Header -->
-        <header class="header">
-            <div class="header-left">
-                <i class="fab fa-discord logo"></i>
-                <h1 class="header-title">Discord AI Bot Dashboard</h1>
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                Discord AI Bot
             </div>
-            <div class="header-right">
-                <div class="user-menu">
-                    <button class="user-btn" onclick="toggleUserMenu()">
-                        <i class="fas fa-user"></i>
-                    </button>
-                    <div class="dropdown" id="userDropdown">
-                        <a
-                            href="#"
-                            class="dropdown-item"
-                            onclick="showSettings()"
-                        >
-                            <i class="fas fa-cog"></i>
-                            Settings
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="/logout" class="dropdown-item">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Logout
-                        </a>
-                    </div>
+        </div>
+        <div class="header-right">
+            <div class="user-menu">
+                <button class="user-btn" onclick="toggleUserMenu()">
+                    <i class="fas fa-user"></i>
+                </button>
+                <div class="dropdown" id="userDropdown">
+                    <a href="#" class="dropdown-item" onclick="showSettings()">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/logout" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="page-header">
-                <h1 class="page-title">
-                    <i class="fas fa-robot"></i>
-                    AI Models Management
-                </h1>
-                <p class="page-subtitle">
-                    Manage your OpenRouter AI models and their configurations
-                </p>
-            </div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-brain"></i>
+                AI Model Dashboard
+            </h1>
+            <p class="page-subtitle">Manage your AI models and configurations</p>
+        </div>
 
-            <div class="models-container">
-                <!-- Free Models Section -->
-                <section class="model-section">
-                    <div class="section-header">
-                        <div>
-                            <h2 class="section-title free-title">
-                                <i class="fas fa-gift"></i>
-                                Free Models
-                                <span class="section-badge"
-                                    >{{ free_models|length }}</span
-                                >
-                            </h2>
-                        </div>
-                        <button
-                            class="add-model-btn"
-                            onclick="showAddModel('free')"
-                        >
-                            <i class="fas fa-plus"></i>
-                            Add Free Model
-                        </button>
-                    </div>
-
-                    {% if free_models %}
-                    <div class="models-grid">
-                        {% for model in free_models %}
-                        <div
-                            class="model-card {{ 'active' if model.is_active else 'inactive' }}"
-                        >
-                            <div class="model-header">
-                                <div class="model-info">
-                                    <h3>{{ model.name }}</h3>
-                                    <div class="model-id">
-                                        {{ model.official_name }}
-                                    </div>
-                                </div>
-                                <div class="model-actions">
-                                    <button
-                                        class="action-btn toggle-btn {{ 'active' if model.is_active else 'inactive' }}"
-                                        onclick="toggleModel({{ model.id }})"
-                                        title="{{ 'Disable' if model.is_active else 'Enable' }} Model"
-                                    >
-                                        <i
-                                            class="fas {{ 'fa-toggle-on' if model.is_active else 'fa-toggle-off' }}"
-                                        ></i>
-                                    </button>
-                                    <button
-                                        class="action-btn test-btn"
-                                        onclick="testModel({{ model.id }})"
-                                        title="Test Model"
-                                    >
-                                        <i class="fas fa-flask"></i>
-                                    </button>
-                                    <button
-                                        class="action-btn delete-btn"
-                                        onclick="deleteModel({{ model.id }}, '{{ model.name }}')"
-                                        title="Delete Model"
-                                    >
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="model-status">
-                                <div
-                                    class="status-indicator {{ 'status-active' if model.is_active else 'status-inactive' }}"
-                                ></div>
-                                <span class="status-text"
-                                    >{{ 'Active' if model.is_active else
-                                    'Inactive' }}</span
-                                >
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    <div class="empty-state">
+        <!-- Models Container -->
+        <div class="models-container">
+            <!-- Free Models Section -->
+            <section class="model-section">
+                <div class="section-header">
+                    <div class="section-title">
                         <i class="fas fa-gift"></i>
-                        <h3>No Free Models</h3>
-                        <p>Add your first free model to get started</p>
-                        <button
-                            class="btn btn-primary"
-                            onclick="showAddModel('free')"
-                        >
-                            <i class="fas fa-plus"></i>
-                            Add Free Model
-                        </button>
+                        <span>Free Models</span>
+                        <span class="free-badge">{{ free_models|length }} Active</span>
                     </div>
-                    {% endif %}
-                </section>
-
-                <!-- Paid Models Section -->
-                <section class="model-section">
-                    <div class="section-header">
-                        <div>
-                            <h2 class="section-title paid-title">
-                                <i class="fas fa-crown"></i>
-                                Paid Models
-                                <span class="section-badge"
-                                    >{{ paid_models|length }}</span
-                                >
-                            </h2>
-                        </div>
-                        <button
-                            class="add-model-btn"
-                            onclick="showAddModel('paid')"
-                        >
-                            <i class="fas fa-plus"></i>
-                            Add Paid Model
-                        </button>
-                    </div>
-
-                    {% if paid_models %}
-                    <div class="models-grid">
-                        {% for model in paid_models %}
-                        <div
-                            class="model-card {{ 'active' if model.is_active else 'inactive' }}"
-                        >
-                            <div class="model-header">
-                                <div class="model-info">
-                                    <h3>{{ model.name }}</h3>
-                                    <div class="model-id">
-                                        {{ model.official_name }}
-                                    </div>
-                                </div>
-                                <div class="model-actions">
-                                    <button
-                                        class="action-btn toggle-btn {{ 'active' if model.is_active else 'inactive' }}"
-                                        onclick="toggleModel({{ model.id }})"
-                                        title="{{ 'Disable' if model.is_active else 'Enable' }} Model"
-                                    >
-                                        <i
-                                            class="fas {{ 'fa-toggle-on' if model.is_active else 'fa-toggle-off' }}"
-                                        ></i>
-                                    </button>
-                                    <button
-                                        class="action-btn test-btn"
-                                        onclick="testModel({{ model.id }})"
-                                        title="Test Model"
-                                    >
-                                        <i class="fas fa-flask"></i>
-                                    </button>
-                                    <button
-                                        class="action-btn delete-btn"
-                                        onclick="deleteModel({{ model.id }}, '{{ model.name }}')"
-                                        title="Delete Model"
-                                    >
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="model-status">
-                                <div
-                                    class="status-indicator {{ 'status-active' if model.is_active else 'status-inactive' }}"
-                                ></div>
-                                <span class="status-text"
-                                    >{{ 'Active' if model.is_active else
-                                    'Inactive' }}</span
-                                >
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    <div class="empty-state">
-                        <i class="fas fa-crown"></i>
-                        <h3>No Paid Models</h3>
-                        <p>Add premium models for enhanced capabilities</p>
-                        <button
-                            class="btn btn-primary"
-                            onclick="showAddModel('paid')"
-                        >
-                            <i class="fas fa-plus"></i>
-                            Add Paid Model
-                        </button>
-                    </div>
-                    {% endif %}
-                </section>
-            </div>
-        </main>
-
-        <!-- Add Model Modal -->
-        <div class="modal" id="addModelModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="addModelTitle">
-                        Add New Model
-                    </h3>
-                    <button class="close-btn" onclick="hideAddModel()">
-                        <i class="fas fa-times"></i>
+                    <button class="add-model-btn" onclick="showAddModel('free')">
+                        <i class="fas fa-plus"></i>
+                        Add Free Model
                     </button>
                 </div>
-                <div class="modal-body">
+
+                {% if free_models %}
+                <div class="models-grid">
+                    {% for model in free_models %}
+                    <div class="model-card {{ 'active' if model.is_active else 'inactive' }}">
+                        <div class="model-header">
+                            <div class="model-info">
+                                <h3>{{ model.name }}</h3>
+                                <div class="model-id">{{ model.official_name }}</div>
+                            </div>
+                        </div>
+
+                        <div class="model-status">
+                            <div class="status-indicator {{ 'status-active' if model.is_active else 'status-inactive' }}"></div>
+                            <span class="status-text">{{ 'Active' if model.is_active else 'Inactive' }}</span>
+                        </div>
+
+                        <div class="model-actions">
+                            <button class="action-btn toggle-btn {{ 'active' if model.is_active else 'inactive' }}"
+                                    onclick="toggleModel({{ model.id }})">
+                                <i class="fas {{ 'fa-toggle-on' if model.is_active else 'fa-toggle-off' }}"></i>
+                                {{ 'Active' if model.is_active else 'Inactive' }}
+                            </button>
+                            <button class="action-btn test-btn" onclick="testModel({{ model.id }})">
+                                <i class="fas fa-play"></i>
+                                Test
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteModel({{ model.id }}, '{{ model.name }}')">
+                                <i class="fas fa-trash"></i>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-robot"></i>
+                    <h3>No Free Models Added</h3>
+                    <p>Add your first free model to get started with AI conversations</p>
+                    <button class="add-model-btn" onclick="showAddModel('free')">
+                        <i class="fas fa-plus"></i>
+                        Add Free Model
+                    </button>
+                </div>
+                {% endif %}
+            </section>
+
+            <!-- Paid Models Section -->
+            <section class="model-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <i class="fas fa-crown"></i>
+                        <span>Premium Models</span>
+                        <span class="paid-badge">{{ paid_models|length }} Active</span>
+                    </div>
+                    <button class="add-model-btn" onclick="showAddModel('paid')">
+                        <i class="fas fa-plus"></i>
+                        Add Premium Model
+                    </button>
+                </div>
+
+                {% if paid_models %}
+                <div class="models-grid">
+                    {% for model in paid_models %}
+                    <div class="model-card {{ 'active' if model.is_active else 'inactive' }}">
+                        <div class="model-header">
+                            <div class="model-info">
+                                <h3>{{ model.name }}</h3>
+                                <div class="model-id">{{ model.official_name }}</div>
+                            </div>
+                        </div>
+
+                        <div class="model-status">
+                            <div class="status-indicator {{ 'status-active' if model.is_active else 'status-inactive' }}"></div>
+                            <span class="status-text">{{ 'Active' if model.is_active else 'Inactive' }}</span>
+                        </div>
+
+                        <div class="model-actions">
+                            <button class="action-btn toggle-btn {{ 'active' if model.is_active else 'inactive' }}"
+                                    onclick="toggleModel({{ model.id }})">
+                                <i class="fas {{ 'fa-toggle-on' if model.is_active else 'fa-toggle-off' }}"></i>
+                                {{ 'Active' if model.is_active else 'Inactive' }}
+                            </button>
+                            <button class="action-btn test-btn" onclick="testModel({{ model.id }})">
+                                <i class="fas fa-play"></i>
+                                Test
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteModel({{ model.id }}, '{{ model.name }}')">
+                                <i class="fas fa-trash"></i>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-crown"></i>
+                    <h3>No Premium Models Added</h3>
+                    <p>Add premium models for advanced AI capabilities</p>
+                    <button class="add-model-btn" onclick="showAddModel('paid')">
+                        <i class="fas fa-plus"></i>
+                        Add Premium Model
+                    </button>
+                </div>
+                {% endif %}
+            </section>
+        </div>
+    </main>
+
+    <!-- Add Model Modal -->
+    <div class="modal" id="addModelModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New AI Model</h3>
+                <button class="close-btn" onclick="hideAddModel()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Model Selection Mode -->
+                <div id="selectionMode">
+                    <div class="form-group">
+                        <label class="form-label">Choose an option:</label>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                            <button class="btn btn-primary" onclick="showPresetModels()">
+                                <i class="fas fa-list"></i>
+                                Select from Available Models
+                            </button>
+                            <button class="btn btn-secondary" onclick="showCustomForm()">
+                                <i class="fas fa-edit"></i>
+                                Add Custom Model
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preset Models -->
+                <div id="presetMode" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Available Models</label>
+                        <div class="preview-grid" id="modelPreviews"></div>
+                        <button class="btn btn-secondary" onclick="showSelectionMode()">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Options
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Custom Model Form -->
+                <div id="customMode" style="display: none;">
                     <form id="addModelForm">
                         <div class="form-group">
-                            <label class="form-label">Select Model</label>
-                            <select
-                                class="form-select"
-                                id="modelSelect"
-                                onchange="updateModelName()"
-                            >
-                                <option value="">Choose a model...</option>
-                            </select>
+                            <label class="form-label" for="modelName">Model Name</label>
+                            <input type="text" id="modelName" class="form-input"
+                                   placeholder="e.g., GPT-4, Claude-3, Gemini Flash" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Display Name</label>
-                            <input
-                                type="text"
-                                class="form-input"
-                                id="modelName"
-                                placeholder="Enter custom name"
-                                required
-                            />
+                            <label class="form-label" for="modelId">Model ID</label>
+                            <input type="text" id="modelId" class="form-input"
+                                   placeholder="e.g., openai/gpt-4, anthropic/claude-3" required>
+                            <small style="color: var(--discord-text-muted); margin-top: 0.5rem; display: block;">
+                                Enter the exact model ID from OpenRouter
+                            </small>
                         </div>
-                        <div
-                            class="form-group"
-                            id="modelPricing"
-                            style="display: none"
-                        >
-                            <label class="form-label"
-                                >Pricing Information</label
-                            >
-                            <div
-                                id="pricingInfo"
-                                style="
-                                    background: #40444b;
-                                    padding: 12px;
-                                    border-radius: 4px;
-                                    color: #dcddde;
-                                    font-size: 0.875rem;
-                                "
-                            ></div>
-                        </div>
-                    </form>
+                        <button type="button" class="btn btn-secondary" onclick="showSelectionMode()">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Options
+                        </button>
+                    </div>
                 </div>
-                <div class="modal-actions">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        onclick="hideAddModel()"
-                    >
+
+                <!-- Modal Actions -->
+                <div class="modal-actions" id="modalActions">
+                    <button type="button" class="btn btn-secondary" onclick="hideAddModel()">
                         Cancel
                     </button>
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        onclick="addModel()"
-                    >
+                    <button type="button" class="btn btn-primary" onclick="addSelectedModel()" id="addModelBtn">
                         <i class="fas fa-plus"></i>
                         Add Model
                     </button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Settings Modal -->
-        <div class="modal" id="settingsModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Settings</h3>
-                    <button class="close-btn" onclick="hideSettings()">
-                        <i class="fas fa-times"></i>
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Settings</h3>
+                <button class="close-btn" onclick="hideSettings()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Change Password</label>
+                    <input type="password" class="form-input" id="currentPassword"
+                           placeholder="Current password" style="margin-bottom: 0.75rem;">
+                    <input type="password" class="form-input" id="newPassword"
+                           placeholder="New password" style="margin-bottom: 0.75rem;">
+                    <input type="password" class="form-input" id="confirmNewPassword"
+                           placeholder="Confirm new password">
+                    <button type="button" class="btn btn-primary" onclick="updatePassword()"
+                            style="margin-top: 0.75rem;">
+                        <i class="fas fa-key"></i>
+                        Update Password
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="form-label">Change Password</label>
-                        <input
-                            type="password"
-                            class="form-input"
-                            id="currentPassword"
-                            placeholder="Current password"
-                            style="margin-bottom: 10px"
-                        />
-                        <input
-                            type="password"
-                            class="form-input"
-                            id="newPassword"
-                            placeholder="New password"
-                            style="margin-bottom: 10px"
-                        />
-                        <input
-                            type="password"
-                            class="form-input"
-                            id="confirmNewPassword"
-                            placeholder="Confirm new password"
-                        />
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                            onclick="updatePassword()"
-                            style="margin-top: 10px"
-                        >
-                            <i class="fas fa-key"></i>
-                            Update Password
-                        </button>
-                    </div>
-                    <hr style="border: 1px solid #40444b; margin: 20px 0" />
-                    <div class="form-group">
-                        <label class="form-label">OpenRouter API Key</label>
-                        <input
-                            type="password"
-                            class="form-input"
-                            id="newApiKey"
-                            placeholder="Enter new API key"
-                        />
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                            onclick="updateApiKey()"
-                            style="margin-top: 10px"
-                        >
-                            <i class="fas fa-key"></i>
-                            Update API Key
-                        </button>
-                    </div>
+
+                <div class="dropdown-divider" style="margin: 2rem 0;"></div>
+
+                <div class="form-group">
+                    <label class="form-label">OpenRouter API Key</label>
+                    <input type="password" class="form-input" id="newApiKey"
+                           placeholder="Enter new API key">
+                    <button type="button" class="btn btn-primary" onclick="updateApiKey()"
+                            style="margin-top: 0.75rem;">
+                        <i class="fas fa-key"></i>
+                        Update API Key
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Test Model Modal -->
-        <div class="modal" id="testModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="testModalTitle">Test Model</h3>
-                    <button class="close-btn" onclick="hideTestModal()">
-                        <i class="fas fa-times"></i>
-                    </button>
+    <!-- Test Model Modal -->
+    <div class="modal" id="testModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Test AI Model</h3>
+                <button class="close-btn" onclick="hideTestModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Test Message</label>
+                    <input type="text" class="form-input" id="testMessage"
+                           placeholder="Enter a test message" value="Hello! How are you today?">
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="form-label">Test Message</label>
-                        <input
-                            type="text"
-                            class="form-input"
-                            id="testMessage"
-                            placeholder="Enter a test message"
-                            value="Hello, how are you?"
-                        />
-                    </div>
-                    <div
-                        class="form-group"
-                        id="testResponse"
-                        style="display: none"
-                    >
-                        <label class="form-label">Response</label>
-                        <div
-                            style="
-                                background: #40444b;
-                                padding: 15px;
-                                border-radius: 4px;
+
+                <div class="form-group" id="testResponse" style="display: none;">
+                    <label class="form-label">AI Response</label>
+                    <div style="background: var(--discord-surface-light);
+                                padding: 1rem;
+                                border-radius: 8px;
                                 white-space: pre-wrap;
-                                max-height: 200px;
+                                max-height: 300px;
                                 overflow-y: auto;
-                            "
-                            id="responseText"
-                        ></div>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        onclick="hideTestModal()"
-                    >
-                        Close
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        onclick="runTest()"
-                        id="testBtn"
-                    >
-                        <i class="fas fa-flask"></i>
-                        Test Model
-                    </button>
+                                border: 1px solid var(--discord-border);"
+                         id="responseText"></div>
                 </div>
             </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="hideTestModal()">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" onclick="runTest()" id="testBtn">
+                    <i class="fas fa-play"></i>
+                    Test Model
+                </button>
+            </div>
         </div>
+    </div>
 
-        <!-- Notification -->
-        <div class="notification" id="notification"></div>
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
 
-        <script>
-            // Available models data with pricing
-            const availableModels = {{ available_models|tojson }};
-            let currentModelType = 'free';
-            let currentTestModelId = null;
+    <script>
+        // Available models data
+        const availableModels = {{ available_models|tojson }};
+        let currentModelType = 'free';
+        let currentTestModelId = null;
+        let selectedPresetModel = null;
 
-            // User menu toggle
-            function toggleUserMenu() {
-                const dropdown = document.getElementById('userDropdown');
-                dropdown.classList.toggle('show');
+        // User menu functions
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.user-menu')) {
+                document.getElementById('userDropdown').classList.remove('show');
             }
+        });
 
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.user-menu')) {
-                    document.getElementById('userDropdown').classList.remove('show');
-                }
-            });
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
 
-            // Show notification
-            function showNotification(message, type = 'info') {
-                const notification = document.getElementById('notification');
-                notification.textContent = message;
-                notification.className = `notification ${type}`;
-                notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
 
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 5000);
-            }
-
-            // Model management functions
-            async function toggleModel(modelId) {
-                try {
-                    const response = await fetch(`/toggle_model/${modelId}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-
-                    const data = await response.json();
-                    if (data.success) {
-                        location.reload();
-                    } else {
-                        showNotification(data.error || 'Failed to toggle model', 'error');
-                    }
-                } catch (error) {
-                    showNotification('Error toggling model', 'error');
-                }
-            }
-
-            async function deleteModel(modelId, modelName) {
-                if (!confirm(`Are you sure you want to delete "${modelName}"? This action cannot be undone.`)) {
-                    return;
-                }
-
-                try {
-                    const response = await fetch(`/delete_model/${modelId}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-
-                    const data = await response.json();
-                    if (data.success) {
-                        showNotification(data.message, 'success');
-                        location.reload();
-                    } else {
-                        showNotification(data.error || 'Failed to delete model', 'error');
-                    }
-                } catch (error) {
-                    showNotification('Error deleting model', 'error');
-                }
-            }
-
-            function testModel(modelId) {
-                currentTestModelId = modelId;
-                document.getElementById('testResponse').style.display = 'none';
-                document.getElementById('testMessage').value = 'Hello, how are you?';
-                document.getElementById('testModal').classList.add('show');
-            }
-
-            async function runTest() {
-                const message = document.getElementById('testMessage').value;
-                if (!message.trim()) {
-                    showNotification('Please enter a test message', 'error');
-                    return;
-                }
-
-                const testBtn = document.getElementById('testBtn');
-                const originalText = testBtn.innerHTML;
-                testBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
-                testBtn.disabled = true;
-
-                try {
-                    const response = await fetch(`/test_model/${currentTestModelId}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ message })
-                    });
-
-                    const data = await response.json();
-                    if (data.success) {
-                        document.getElementById('responseText').textContent = data.response;
-                        document.getElementById('testResponse').style.display = 'block';
-                        showNotification('Model test successful!', 'success');
-                    } else {
-                        showNotification(data.error || 'Test failed', 'error');
-                    }
-                } catch (error) {
-                    showNotification('Error testing model', 'error');
-                } finally {
-                    testBtn.innerHTML = originalText;
-                    testBtn.disabled = false;
-                }
-            }
-
-            function hideTestModal() {
-                document.getElementById('testModal').classList.remove('show');
-            }
-
-            // Add model functions
-            function showAddModel(type) {
-                currentModelType = type;
-                const modal = document.getElementById('addModelModal');
-                const title = document.getElementById('addModelTitle');
-                const select = document.getElementById('modelSelect');
-
-                title.textContent = `Add ${type === 'free' ? 'Free' : 'Paid'} Model`;
-
-                // Populate select options
-                select.innerHTML = '<option value="">Choose a model...</option>';
-                availableModels[type].forEach(model => {
-                    const option = document.createElement('option');
-                    option.value = model.id;
-                    option.textContent = model.name;
-                    option.dataset.description = model.description;
-                    select.appendChild(option);
+        // Model management functions
+        async function toggleModel(modelId) {
+            try {
+                const response = await fetch(`/toggle_model/${modelId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
                 });
 
-                modal.classList.add('show');
-            }
-
-            function hideAddModel() {
-                document.getElementById('addModelModal').classList.remove('show');
-                document.getElementById('modelSelect').value = '';
-                document.getElementById('modelName').value = '';
-                document.getElementById('modelPricing').style.display = 'none';
-            }
-
-            function updateModelName() {
-                const select = document.getElementById('modelSelect');
-                const nameInput = document.getElementById('modelName');
-                const pricingDiv = document.getElementById('modelPricing');
-                const pricingInfo = document.getElementById('pricingInfo');
-
-                if (select.value) {
-                    const selectedOption = select.options[select.selectedIndex];
-                    nameInput.value = selectedOption.textContent;
-
-                    // Find the model in availableModels to get pricing info
-                    let modelFound = null;
-                    for (const type in availableModels) {
-                        modelFound = availableModels[type].find(m => m.id === select.value);
-                        if (modelFound) break;
-                    }
-
-                    if (modelFound && modelFound.price) {
-                        pricingInfo.innerHTML = `<strong>Pricing:</strong> ${modelFound.price}<br><strong>Description:</strong> ${modelFound.description}`;
-                        pricingDiv.style.display = 'block';
-                    } else {
-                        pricingDiv.style.display = 'none';
-                    }
+                const data = await response.json();
+                if (data.success) {
+                    showNotification('Model status updated successfully!', 'success');
+                    setTimeout(() => location.reload(), 1000);
                 } else {
-                    pricingDiv.style.display = 'none';
+                    showNotification(data.error || 'Failed to toggle model', 'error');
                 }
+            } catch (error) {
+                showNotification('Error toggling model', 'error');
+            }
+        }
+
+        async function deleteModel(modelId, modelName) {
+            if (!confirm(`Are you sure you want to delete "${modelName}"?\n\nThis action cannot be undone.`)) {
+                return;
             }
 
-            async function addModel() {
-                const modelId = document.getElementById('modelSelect').value;
-                const modelName = document.getElementById('modelName').value;
+            try {
+                const response = await fetch(`/delete_model/${modelId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
 
-                if (!modelId || !modelName.trim()) {
-                    showNotification('Please select a model and enter a name', 'error');
+                const data = await response.json();
+                if (data.success) {
+                    showNotification(data.message, 'success');
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    showNotification(data.error || 'Failed to delete model', 'error');
+                }
+            } catch (error) {
+                showNotification('Error deleting model', 'error');
+            }
+        }
+
+        // Test model functions
+        function testModel(modelId) {
+            currentTestModelId = modelId;
+            document.getElementById('testResponse').style.display = 'none';
+            document.getElementById('testMessage').value = 'Hello! How are you today?';
+            document.getElementById('testModal').classList.add('show');
+        }
+
+        async function runTest() {
+            const message = document.getElementById('testMessage').value;
+            if (!message.trim()) {
+                showNotification('Please enter a test message', 'error');
+                return;
+            }
+
+            const testBtn = document.getElementById('testBtn');
+            const originalContent = testBtn.innerHTML;
+            testBtn.innerHTML = '<div class="loading"></div> Testing...';
+            testBtn.disabled = true;
+
+            try {
+                const response = await fetch(`/test_model/${currentTestModelId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('responseText').textContent = data.response;
+                    document.getElementById('testResponse').style.display = 'block';
+                    showNotification(`✅ ${data.model_name} responded successfully!`, 'success');
+                } else {
+                    showNotification(data.error || 'Test failed - model may not support this request', 'error');
+                }
+            } catch (error) {
+                showNotification('Error testing model - please check your connection', 'error');
+            } finally {
+                testBtn.innerHTML = originalContent;
+                testBtn.disabled = false;
+            }
+        }
+
+        function hideTestModal() {
+            document.getElementById('testModal').classList.remove('show');
+        }
+
+        // Add model functions
+        function showAddModel(type) {
+            currentModelType = type;
+            selectedPresetModel = null;
+            showSelectionMode();
+            document.getElementById('addModelModal').classList.add('show');
+        }
+
+        function hideAddModel() {
+            document.getElementById('addModelModal').classList.remove('show');
+            // Reset form
+            document.getElementById('modelName').value = '';
+            document.getElementById('modelId').value = '';
+            showSelectionMode();
+        }
+
+        function showSelectionMode() {
+            document.getElementById('selectionMode').style.display = 'block';
+            document.getElementById('presetMode').style.display = 'none';
+            document.getElementById('customMode').style.display = 'none';
+            document.getElementById('modalActions').style.display = 'flex';
+            document.getElementById('addModelBtn').style.display = 'none';
+        }
+
+        function showPresetModels() {
+            document.getElementById('selectionMode').style.display = 'none';
+            document.getElementById('presetMode').style.display = 'block';
+            document.getElementById('customMode').style.display = 'none';
+            document.getElementById('addModelBtn').style.display = 'flex';
+
+            // Populate model previews
+            const container = document.getElementById('modelPreviews');
+            container.innerHTML = '';
+
+            const models = availableModels[currentModelType] || [];
+            models.forEach(model => {
+                const preview = document.createElement('div');
+                preview.className = 'model-preview';
+                preview.onclick = () => selectPresetModel(model, preview);
+                preview.innerHTML = `
+                    <h4 style="margin-bottom: 0.5rem; color: var(--discord-text-primary);">${model.name}</h4>
+                    <p style="font-size: 0.85rem; color: var(--discord-text-muted); margin-bottom: 0.5rem;">${model.description}</p>
+                    <div style="font-size: 0.8rem; color: var(--discord-text-secondary); font-family: monospace;">
+                        ${model.id}
+                    </div>
+                    <div style="margin-top: 0.5rem; font-weight: 600; color: var(--discord-success);">
+                        ${model.price}
+                    </div>
+                `;
+                container.appendChild(preview);
+            });
+        }
+
+        function showCustomForm() {
+            document.getElementById('selectionMode').style.display = 'none';
+            document.getElementById('presetMode').style.display = 'none';
+            document.getElementById('customMode').style.display = 'block';
+            document.getElementById('addModelBtn').style.display = 'flex';
+            selectedPresetModel = null;
+        }
+
+        function selectPresetModel(model, element) {
+            // Remove previous selection
+            document.querySelectorAll('.model-preview').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // Select current
+            element.classList.add('selected');
+            selectedPresetModel = model;
+        }
+
+        async function addSelectedModel() {
+            let modelData = null;
+
+            if (selectedPresetModel) {
+                // Adding preset model
+                modelData = {
+                    model_id: selectedPresetModel.id,
+                    model_name: selectedPresetModel.name
+                };
+            } else {
+                // Adding custom model
+                const modelName = document.getElementById('modelName').value.trim();
+                const modelId = document.getElementById('modelId').value.trim();
+
+                if (!modelName || !modelId) {
+                    showNotification('Please enter both model name and ID', 'error');
                     return;
                 }
 
-                try {
-                    const response = await fetch('/add_model', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ model_id: modelId, model_name: modelName.trim() })
-                    });
-
-                    const data = await response.json();
-                    if (data.success) {
-                        showNotification(data.message, 'success');
-                        hideAddModel();
-                        location.reload();
-                    } else {
-                        showNotification(data.error || 'Failed to add model', 'error');
-                    }
-                } catch (error) {
-                    showNotification('Error adding model', 'error');
-                }
+                modelData = {
+                    model_id: modelId,
+                    model_name: modelName
+                };
             }
 
-            // Settings functions
-            function showSettings() {
-                document.getElementById('userDropdown').classList.remove('show');
-                document.getElementById('settingsModal').classList.add('show');
+            if (!modelData) {
+                showNotification('Please select a model or fill in the custom form', 'error');
+                return;
             }
 
-            function hideSettings() {
-                document.getElementById('settingsModal').classList.remove('show');
-                // Clear form fields
-                document.getElementById('currentPassword').value = '';
-                document.getElementById('newPassword').value = '';
-                document.getElementById('confirmNewPassword').value = '';
-                document.getElementById('newApiKey').value = '';
+            const addBtn = document.getElementById('addModelBtn');
+            const originalContent = addBtn.innerHTML;
+            addBtn.innerHTML = '<div class="loading"></div> Adding...';
+            addBtn.disabled = true;
+
+            try {
+                const response = await fetch('/add_model', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(modelData)
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showNotification(data.message, 'success');
+                    hideAddModel();
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    showNotification(data.error || 'Failed to add model', 'error');
+                }
+            } catch (error) {
+                showNotification('Error adding model', 'error');
+            } finally {
+                addBtn.innerHTML = originalContent;
+                addBtn.disabled = false;
+            }
+        }
+
+        // Settings functions
+        function showSettings() {
+            document.getElementById('userDropdown').classList.remove('show');
+            document.getElementById('settingsModal').classList.add('show');
+        }
+
+        function hideSettings() {
+            document.getElementById('settingsModal').classList.remove('show');
+            // Clear form fields
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmNewPassword').value = '';
+            document.getElementById('newApiKey').value = '';
+        }
+
+        async function updatePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmNewPassword').value;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showNotification('Please fill in all password fields', 'error');
+                return;
             }
 
-            async function updatePassword() {
-                const currentPassword = document.getElementById('currentPassword').value;
-                const newPassword = document.getElementById('newPassword').value;
-                const confirmPassword = document.getElementById('confirmNewPassword').value;
-
-                if (!currentPassword || !newPassword || !confirmPassword) {
-                    showNotification('Please fill in all password fields', 'error');
-                    return;
-                }
-
-                if (newPassword !== confirmPassword) {
-                    showNotification('New passwords do not match', 'error');
-                    return;
-                }
-
-                if (newPassword.length < 6) {
-                    showNotification('New password must be at least 6 characters', 'error');
-                    return;
-                }
-
-                try {
-                    const response = await fetch('/update_password', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            current_password: currentPassword,
-                            new_password: newPassword,
-                            confirm_password: confirmPassword
-                        })
-                    });
-
-                    const data = await response.json();
-                    if (data.success) {
-                        showNotification(data.message, 'success');
-                        document.getElementById('currentPassword').value = '';
-                        document.getElementById('newPassword').value = '';
-                        document.getElementById('confirmNewPassword').value = '';
-                    } else {
-                        showNotification(data.error || 'Failed to update password', 'error');
-                    }
-                } catch (error) {
-                    showNotification('Error updating password', 'error');
-                }
+            if (newPassword !== confirmPassword) {
+                showNotification('New passwords do not match', 'error');
+                return;
             }
 
-            async function updateApiKey() {
-                const newApiKey = document.getElementById('newApiKey').value;
-
-                if (!newApiKey.trim()) {
-                    showNotification('Please enter a new API key', 'error');
-                    return;
-                }
-
-                if (!newApiKey.startsWith('sk-or-v1-')) {
-                    showNotification('Please enter a valid OpenRouter API key', 'error');
-                    return;
-                }
-
-                try {
-                    const response = await fetch('/update_api_key', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ api_key: newApiKey })
-                    });
-
-                    const data = await response.json();
-                    if (data.success) {
-                        showNotification(data.message, 'success');
-                        document.getElementById('newApiKey').value = '';
-                    } else {
-                        showNotification(data.error || 'Failed to update API key', 'error');
-                    }
-                } catch (error) {
-                    showNotification('Error updating API key', 'error');
-                }
+            if (newPassword.length < 6) {
+                showNotification('New password must be at least 6 characters', 'error');
+                return;
             }
 
+            try {
+                const response = await fetch('/update_password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        current_password: currentPassword,
+                        new_password: newPassword,
+                        confirm_password: confirmPassword
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showNotification(data.message, 'success');
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmNewPassword').value = '';
+                } else {
+                    showNotification(data.error || 'Failed to update password', 'error');
+                }
+            } catch (error) {
+                showNotification('Error updating password', 'error');
+            }
+        }
+
+        async function updateApiKey() {
+            const newApiKey = document.getElementById('newApiKey').value.trim();
+
+            if (!newApiKey) {
+                showNotification('Please enter a new API key', 'error');
+                return;
+            }
+
+            if (!newApiKey.startsWith('sk-or-v1-')) {
+                showNotification('Please enter a valid OpenRouter API key (starts with sk-or-v1-)', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/update_api_key', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ api_key: newApiKey })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showNotification(data.message, 'success');
+                    document.getElementById('newApiKey').value = '';
+                } else {
+                    showNotification(data.error || 'Failed to update API key', 'error');
+                }
+            } catch (error) {
+                showNotification('Error updating API key', 'error');
+            }
+        }
+
+        // Global event handlers
+        document.addEventListener('click', function(e) {
             // Close modals when clicking outside
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('modal')) {
-                    e.target.classList.remove('show');
-                }
-            });
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('show');
+            }
+        });
 
-            // Handle keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    // Close any open modals
-                    document.querySelectorAll('.modal.show').forEach(modal => {
-                        modal.classList.remove('show');
-                    });
-                }
-            });
-        </script>
-    </body>
+        document.addEventListener('keydown', function(e) {
+            // Close modals with Escape key
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.show').forEach(modal => {
+                    modal.classList.remove('show');
+                });
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scrolling
+            document.documentElement.style.scrollBehavior = 'smooth';
+
+            // Show welcome message if no models
+            const modelCards = document.querySelectorAll('.model-card');
+            if (modelCards.length === 0) {
+                setTimeout(() => {
+                    showNotification('Welcome! Add your first AI model to get started.', 'info');
+                }, 1000);
+            }
+        });
+    </script>
+</body>
 </html>
