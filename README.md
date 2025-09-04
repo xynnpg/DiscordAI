@@ -5,6 +5,8 @@ A Discord bot that integrates with OpenRouter APIs to provide AI chat capabiliti
 ## Features
 
 - **AI Chat**: Ask questions using `/ask` command with intelligent responses
+- **Conversation Memory**: AI remembers previous conversations for context-aware responses
+- **Per-User Memory**: Each user has their own separate conversation history
 - **Model Switching**: Change AI models with `/change` command and autocomplete
 - **User Preferences**: Each user maintains their own preferred AI model
 - **Web Interface**: Flask web interface for managing models and settings
@@ -17,9 +19,11 @@ A Discord bot that integrates with OpenRouter APIs to provide AI chat capabiliti
 | Command | Description | Example |
 |---------|-------------|---------|
 | `/ping` | Check if the bot is working | `/ping` |
-| `/ask <content>` | Ask the AI a question | `/ask What is machine learning?` |
+| `/ask <content>` | Ask the AI a question (remembers context) | `/ask What is machine learning?` |
 | `/change <model>` | Change your preferred AI model | `/change GPT-4` |
 | `/models` | Show available models and your current selection | `/models` |
+| `/clear_memory` | Clear your conversation history | `/clear_memory` |
+| `/memory_info` | View your conversation memory statistics | `/memory_info` |
 
 ## Quick Start
 
@@ -86,9 +90,12 @@ Access the web interface at `http://localhost:5000` to manage your AI models:
 ### For Users
 
 1. **Set Your Model**: Use `/change <model_name>` to set your preferred model (autocomplete available)
-2. **Ask Questions**: Use `/ask <your question>` to chat with the AI
+2. **Ask Questions**: Use `/ask <your question>` to chat with the AI (remembers previous conversations)
 3. **Switch Models**: Use `/change <model_name>` to select a different AI model
 4. **Check Models**: Use `/models` to see available models and your current selection
+5. **Manage Memory**: 
+   - Use `/memory_info` to view your conversation statistics
+   - Use `/clear_memory` to reset your conversation history for a fresh start
 
 ### For Administrators
 
@@ -100,14 +107,15 @@ Access the web interface at `http://localhost:5000` to manage your AI models:
 
 ```
 DiscordAIChatBot/
-├── discord_bot.py      # Main Discord bot
-├── flask_web.py        # Flask web interface
-├── openrouter_client.py # OpenRouter API client
-├── database.py         # Database models
-├── config.py           # Configuration
-├── requirements.txt    # Python dependencies
-├── README.md          # This file
-└── templates/         # Flask HTML templates
+├── discord_bot.py          # Main Discord bot with memory
+├── flask_web.py            # Flask web interface
+├── openrouter_client.py    # OpenRouter API client
+├── database.py             # Database models (includes ConversationHistory)
+├── config.py               # Configuration
+├── update_memory_database.py # Memory database migration script
+├── requirements.txt        # Python dependencies
+├── README.md              # This file
+└── templates/             # Flask HTML templates
     ├── base.html
     ├── index.html
     ├── add_model.html
@@ -121,8 +129,30 @@ For a complete step-by-step setup guide, visit: **[Discord AI Setup Guide](https
 This tutorial provides detailed instructions for:
 - Discord bot creation and configuration
 - Environment setup
+- Memory functionality setup
 - Local deployment
 - Cloud deployment options
+
+## Memory Features
+
+The bot now includes sophisticated conversation memory:
+
+### How It Works
+- Each user has their own separate conversation history
+- The AI remembers up to the last 10 message exchanges for context
+- Memory persists across bot restarts and sessions
+- Conversations are stored securely in the database
+
+### Memory Commands
+- **`/ask`**: Now context-aware - the AI remembers your previous messages
+- **`/memory_info`**: Shows your conversation statistics and recent message preview
+- **`/clear_memory`**: Clears your conversation history for a fresh start
+
+### Privacy & Security
+- Each user's conversations are completely separate and private
+- Memory can be cleared at any time using `/clear_memory`
+- No conversation data is shared between users
+- All messages are stored locally in your database
 
 ## Troubleshooting
 

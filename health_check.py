@@ -1,67 +1,64 @@
 #!/usr/bin/env python3
 """
-Simple health check script for Railway deployment
+Railway-compatible health check script
 """
 
 import os
 import sys
-import requests
-import time
 
 def check_environment():
     """Check if required environment variables are set"""
-    required_vars = ['DISCORD_BOT_TOKEN', 'GUILD_ID']
+    required_vars = ['DISCORD_BOT_TOKEN']
     missing_vars = []
-    
+
     for var in required_vars:
         if not os.getenv(var):
             missing_vars.append(var)
-    
+
     if missing_vars:
         print("❌ Missing environment variables:")
         for var in missing_vars:
             print(f"   - {var}")
         return False
-    
-    print("✅ All required environment variables are set")
+
+    print("✅ Required environment variables are set")
     return True
 
-def check_flask_app():
-    """Check if Flask app is running"""
+def check_database():
+    """Check if database can be accessed"""
     try:
-        port = int(os.environ.get('PORT', 5000))
-        url = f"http://localhost:{port}/health"
-        
-        response = requests.get(url, timeout=5)
-        if response.status_code == 200:
-            print("✅ Flask app is running and healthy")
+        from flask_web import create_app
+        from database import db, AIModel
+
+        app = create_app()
+        with app.app_context():
+            # Try to query the database
+            model_count = AIModel.query.count()
+            print(f"✅ Database accessible ({model_count} models)")
             return True
-        else:
-            print(f"❌ Flask app returned status code: {response.status_code}")
-            return False
-            
-    except requests.exceptions.RequestException as e:
-        print(f"❌ Flask app is not responding: {e}")
+
+    except Exception as e:
+        print(f"❌ Database check failed: {e}")
         return False
 
 def main():
-    """Main health check function"""
-    print("🔍 Running health checks...")
-    print("-" * 40)
-    
+    """Main health check function for Railway"""
+    print("🔍 Railway Health Check")
+    print("-" * 30)
+
     # Check environment
     env_ok = check_environment()
-    
-    # Check Flask app
-    flask_ok = check_flask_app()
-    
-    print("-" * 40)
-    if env_ok and flask_ok:
-        print("✅ All health checks passed!")
+
+    # Check database
+    db_ok = check_database()
+
+    print("-" * 30)
+    if env_ok and db_ok:
+        print("✅ Health check passed!")
         sys.exit(0)
     else:
-        print("❌ Some health checks failed!")
+        print("❌ Health check failed!")
         sys.exit(1)
 
 if __name__ == "__main__":
-    main() 
+    main()

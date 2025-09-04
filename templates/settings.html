@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord AI Bot - Settings</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #36393f;
+            color: #dcddde;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #2f3136;
+            padding: 15px 20px;
+            border-bottom: 1px solid #40444b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            color: #5865f2;
+            font-size: 1.5rem;
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .back-btn {
+            background: #40444b;
+            color: #dcddde;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: #5865f2;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-subtitle {
+            color: #b9bbbe;
+            font-size: 1rem;
+        }
+
+        /* Settings Sections */
+        .settings-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .settings-section {
+            background: #2f3136;
+            border-radius: 8px;
+            padding: 25px;
+            border: 1px solid #40444b;
+        }
+
+        .section-title {
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #40444b;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b9bbbe;
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            background: #40444b;
+            border: 1px solid #40444b;
+            border-radius: 4px;
+            color: #dcddde;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #5865f2;
+            box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.2);
+        }
+
+        .form-help {
+            font-size: 0.875rem;
+            color: #72767d;
+            margin-top: 5px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #5865f2;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4752c4;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            background: #4f545c;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-danger {
+            background: #ed4245;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c23a3d;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #4f545c;
+            color: #dcddde;
+        }
+
+        .btn-secondary:hover {
+            background: #5d6269;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert.show {
+            display: flex;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: rgba(87, 242, 135, 0.2);
+            border: 1px solid #57f287;
+            color: #57f287;
+        }
+
+        .alert-error {
+            background: rgba(237, 66, 69, 0.2);
+            border: 1px solid #ed4245;
+            color: #ed4245;
+        }
+
+        .alert-info {
+            background: rgba(88, 101, 242, 0.2);
+            border: 1px solid #5865f2;
+            color: #5865f2;
+        }
+
+        /* Loading State */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #40444b;
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Password Strength Indicator */
+        .password-strength {
+            margin-top: 8px;
+            display: none;
+        }
+
+        .strength-bar {
+            width: 100%;
+            height: 4px;
+            background: #40444b;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .strength-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .strength-weak .strength-fill {
+            width: 33%;
+            background: #ed4245;
+        }
+
+        .strength-medium .strength-fill {
+            width: 66%;
+            background: #faa61a;
+        }
+
+        .strength-strong .strength-fill {
+            width: 100%;
+            background: #57f287;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 15px;
+            }
+
+            .header-title {
+                font-size: 1rem;
+            }
+
+            .main-content {
+                padding: 20px 15px;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .settings-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <i class="fab fa-discord logo"></i>
+            <h1 class="header-title">Settings</h1>
+        </div>
+        <div class="header-right">
+            <a href="/dashboard" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-cog"></i>
+                Settings
+            </h1>
+            <p class="page-subtitle">Manage your account settings and configuration</p>
+        </div>
+
+        <div class="settings-container">
+            <!-- Password Settings -->
+            <section class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-lock"></i>
+                    Password & Security
+                </h2>
+
+                <div class="alert" id="passwordAlert"></div>
+
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label class="form-label" for="currentPassword">Current Password</label>
+                        <input type="password" class="form-input" id="currentPassword" placeholder="Enter your current password" required>
+                        <div class="form-help">Enter your current password to confirm changes</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="newPassword">New Password</label>
+                        <input type="password" class="form-input" id="newPassword" placeholder="Enter new password" required>
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="strength-bar">
+                                <div class="strength-fill"></div>
+                            </div>
+                            <div class="strength-text">Password strength: <span id="strengthText">-</span></div>
+                        </div>
+                        <div class="form-help">Minimum 6 characters recommended</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="confirmNewPassword">Confirm New Password</label>
+                        <input type="password" class="form-input" id="confirmNewPassword" placeholder="Confirm new password" required>
+                        <div class="form-help">Re-enter your new password</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="updatePasswordBtn">
+                        <i class="fas fa-key"></i>
+                        Update Password
+                    </button>
+                </form>
+            </section>
+
+            <!-- API Configuration -->
+            <section class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-code"></i>
+                    API Configuration
+                </h2>
+
+                <div class="alert" id="apiAlert"></div>
+
+                <form id="apiForm">
+                    <div class="form-group">
+                        <label class="form-label" for="newApiKey">OpenRouter API Key</label>
+                        <input type="password" class="form-input" id="newApiKey" placeholder="sk-or-v1-..." required>
+                        <div class="form-help">
+                            Your OpenRouter API key is used for all AI model interactions.
+                            <a href="https://openrouter.ai/keys" target="_blank" style="color: #5865f2;">Get your API key here</a>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info show">
+                        <i class="fas fa-info-circle"></i>
+                        Updating the API key will affect all configured models
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="updateApiBtn">
+                        <i class="fas fa-sync"></i>
+                        Update API Key
+                    </button>
+                </form>
+            </section>
+
+            <!-- System Information -->
+            <section class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    System Information
+                </h2>
+
+                <div class="form-group">
+                    <label class="form-label">Bot Version</label>
+                    <div style="background: #40444b; padding: 12px; border-radius: 4px; color: #dcddde; font-family: 'Courier New', monospace;">
+                        Discord AI Bot v2.0
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Platform</label>
+                    <div style="background: #40444b; padding: 12px; border-radius: 4px; color: #dcddde; font-family: 'Courier New', monospace;">
+                        Flask Web Application
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Database Status</label>
+                    <div style="background: #3e5e47; padding: 12px; border-radius: 4px; color: #57f287; font-family: 'Courier New', monospace; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-check-circle"></i>
+                        Connected
+                    </div>
+                </div>
+            </section>
+
+            <!-- Danger Zone -->
+            <section class="settings-section" style="border-color: #ed4245;">
+                <h2 class="section-title" style="color: #ed4245; border-color: #ed4245;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Danger Zone
+                </h2>
+
+                <div class="alert alert-error show">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    These actions are irreversible and will permanently delete all data
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Reset All Settings</label>
+                    <div class="form-help" style="margin-bottom: 10px;">
+                        This will delete all configurations, models, and settings, then redirect you to the setup wizard.
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="confirmReset()">
+                        <i class="fas fa-trash-alt"></i>
+                        Reset Everything
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strengthIndicator = document.getElementById('passwordStrength');
+            const strengthText = document.getElementById('strengthText');
+
+            if (!password) {
+                strengthIndicator.style.display = 'none';
+                return;
+            }
+
+            strengthIndicator.style.display = 'block';
+
+            let score = 0;
+            let feedback = '';
+
+            // Length check
+            if (password.length >= 8) score += 1;
+            if (password.length >= 12) score += 1;
+
+            // Character variety checks
+            if (/[a-z]/.test(password)) score += 1;
+            if (/[A-Z]/.test(password)) score += 1;
+            if (/[0-9]/.test(password)) score += 1;
+            if (/[^A-Za-z0-9]/.test(password)) score += 1;
+
+            // Set strength class and text
+            strengthIndicator.className = 'password-strength';
+
+            if (score < 3) {
+                strengthIndicator.classList.add('strength-weak');
+                feedback = 'Weak';
+            } else if (score < 5) {
+                strengthIndicator.classList.add('strength-medium');
+                feedback = 'Medium';
+            } else {
+                strengthIndicator.classList.add('strength-strong');
+                feedback = 'Strong';
+            }
+
+            strengthText.innerHTML = `Password strength: <span>${feedback}</span>`;
+        }
+
+        // Show alert function
+        function showAlert(alertId, message, type) {
+            const alert = document.getElementById(alertId);
+            alert.className = `alert alert-${type} show`;
+            alert.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i> ${message}`;
+
+            if (type === 'success') {
+                setTimeout(() => {
+                    alert.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        // Hide alert function
+        function hideAlert(alertId) {
+            document.getElementById(alertId).classList.remove('show');
+        }
+
+        // Password form handler
+        document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmNewPassword').value;
+            const updateBtn = document.getElementById('updatePasswordBtn');
+
+            // Validation
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showAlert('passwordAlert', 'Please fill in all password fields', 'error');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showAlert('passwordAlert', 'New passwords do not match', 'error');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showAlert('passwordAlert', 'New password must be at least 6 characters', 'error');
+                return;
+            }
+
+            // Show loading state
+            updateBtn.disabled = true;
+            updateBtn.innerHTML = '<span class="loading"></span>Updating Password...';
+
+            try {
+                const response = await fetch('/update_password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        current_password: currentPassword,
+                        new_password: newPassword,
+                        confirm_password: confirmPassword
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showAlert('passwordAlert', data.message, 'success');
+                    // Clear form
+                    document.getElementById('passwordForm').reset();
+                    document.getElementById('passwordStrength').style.display = 'none';
+                } else {
+                    showAlert('passwordAlert', data.error || 'Failed to update password', 'error');
+                }
+            } catch (error) {
+                showAlert('passwordAlert', 'Error updating password', 'error');
+            } finally {
+                updateBtn.disabled = false;
+                updateBtn.innerHTML = '<i class="fas fa-key"></i> Update Password';
+            }
+        });
+
+        // API form handler
+        document.getElementById('apiForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const apiKey = document.getElementById('newApiKey').value;
+            const updateBtn = document.getElementById('updateApiBtn');
+
+            // Validation
+            if (!apiKey.trim()) {
+                showAlert('apiAlert', 'Please enter a new API key', 'error');
+                return;
+            }
+
+            if (!apiKey.startsWith('sk-or-v1-')) {
+                showAlert('apiAlert', 'Please enter a valid OpenRouter API key', 'error');
+                return;
+            }
+
+            // Show loading state
+            updateBtn.disabled = true;
+            updateBtn.innerHTML = '<span class="loading"></span>Updating API Key...';
+
+            try {
+                const response = await fetch('/update_api_key', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ api_key: apiKey })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showAlert('apiAlert', data.message, 'success');
+                    // Clear form
+                    document.getElementById('newApiKey').value = '';
+                } else {
+                    showAlert('apiAlert', data.error || 'Failed to update API key', 'error');
+                }
+            } catch (error) {
+                showAlert('apiAlert', 'Error updating API key', 'error');
+            } finally {
+                updateBtn.disabled = false;
+                updateBtn.innerHTML = '<i class="fas fa-sync"></i> Update API Key';
+            }
+        });
+
+        // Password strength checker
+        document.getElementById('newPassword').addEventListener('input', function() {
+            checkPasswordStrength(this.value);
+        });
+
+        // Confirm reset function
+        async function confirmReset() {
+            const confirmMessage = 'This will permanently delete ALL data including:\n\n' +
+                                 '• Your password and login settings\n' +
+                                 '• All configured AI models\n' +
+                                 '• OpenRouter API configuration\n' +
+                                 '• All saved preferences\n\n' +
+                                 'This action cannot be undone!\n\n' +
+                                 'Type "RESET" to confirm:';
+
+            const userInput = prompt(confirmMessage);
+
+            if (userInput === 'RESET') {
+                try {
+                    const response = await fetch('/forgot_password', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert('All data has been reset successfully. Redirecting to setup...');
+                        window.location.href = '/setup';
+                    } else {
+                        alert('Error: ' + (data.error || 'Reset failed'));
+                    }
+                } catch (error) {
+                    alert('Error: Reset failed. Please try again.');
+                }
+            } else if (userInput !== null) {
+                alert('Reset cancelled. You must type "RESET" exactly to confirm.');
+            }
+        }
+
+        // Auto-hide alerts after showing
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.querySelectorAll('.alert.show').forEach(alert => {
+                    if (!alert.classList.contains('alert-info') && !alert.classList.contains('alert-error')) {
+                        alert.classList.remove('show');
+                    }
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

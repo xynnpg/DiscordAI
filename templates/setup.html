@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Discord AI Bot - Setup</title>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background: #36393f;
+                color: #dcddde;
+                min-height: 100vh;
+                overflow-x: hidden;
+            }
+
+            .animated-bg {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    -45deg,
+                    #2c2f33,
+                    #23272a,
+                    #36393f,
+                    #40444b
+                );
+                background-size: 400% 400%;
+                animation: gradientShift 15s ease infinite;
+                z-index: -1;
+            }
+
+            @keyframes gradientShift {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .setup-card {
+                background: #2f3136;
+                border-radius: 8px;
+                padding: 40px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+                width: 100%;
+                max-width: 500px;
+                position: relative;
+            }
+
+            .logo-container {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .logo {
+                font-size: 4rem;
+                color: #5865f2;
+                margin-bottom: 15px;
+                animation: bounce 2s infinite;
+            }
+
+            @keyframes bounce {
+                0%,
+                20%,
+                50%,
+                80%,
+                100% {
+                    transform: translateY(0);
+                }
+                40% {
+                    transform: translateY(-10px);
+                }
+                60% {
+                    transform: translateY(-5px);
+                }
+            }
+
+            .logo-text {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #ffffff;
+                margin-bottom: 10px;
+            }
+
+            .subtitle {
+                color: #b9bbbe;
+                font-size: 1rem;
+            }
+
+            .setup-step {
+                display: none;
+            }
+
+            .setup-step.active {
+                display: block;
+                animation: fadeInUp 0.5s ease;
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-label {
+                display: block;
+                margin-bottom: 8px;
+                color: #b9bbbe;
+                font-weight: 500;
+                font-size: 0.875rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .form-input {
+                width: 100%;
+                padding: 12px;
+                background: #40444b;
+                border: 1px solid #40444b;
+                border-radius: 4px;
+                color: #dcddde;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+            }
+
+            .form-input:focus {
+                outline: none;
+                border-color: #5865f2;
+                box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.2);
+            }
+
+            .btn {
+                padding: 12px 24px;
+                border: none;
+                border-radius: 4px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                display: inline-block;
+                text-align: center;
+                font-size: 1rem;
+            }
+
+            .btn-primary {
+                background: #5865f2;
+                color: white;
+            }
+
+            .btn-primary:hover {
+                background: #4752c4;
+                transform: translateY(-1px);
+            }
+
+            .btn-primary:disabled {
+                background: #4f545c;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+            .btn-secondary {
+                background: #4f545c;
+                color: #dcddde;
+            }
+
+            .btn-secondary:hover {
+                background: #5d6269;
+            }
+
+            .btn-success {
+                background: #57f287;
+                color: #000;
+            }
+
+            .btn-success:hover {
+                background: #46e56a;
+            }
+
+            .btn-full {
+                width: 100%;
+            }
+
+            .model-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 10px;
+                max-height: 300px;
+                overflow-y: auto;
+                padding: 10px 0;
+            }
+
+            .model-card {
+                background: #40444b;
+                padding: 15px;
+                border-radius: 6px;
+                border: 2px solid transparent;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .model-card:hover {
+                border-color: #5865f2;
+            }
+
+            .model-card.selected {
+                border-color: #57f287;
+                background: #3e5e47;
+            }
+
+            .model-name {
+                font-weight: 600;
+                margin-bottom: 5px;
+            }
+
+            .model-description {
+                font-size: 0.875rem;
+                color: #b9bbbe;
+            }
+
+            .section-title {
+                color: #ffffff;
+                font-size: 1.25rem;
+                font-weight: 700;
+                margin: 20px 0 10px 0;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #5865f2;
+            }
+
+            .progress-bar {
+                width: 100%;
+                height: 4px;
+                background: #40444b;
+                border-radius: 2px;
+                margin-bottom: 20px;
+                overflow: hidden;
+            }
+
+            .progress-fill {
+                height: 100%;
+                background: #5865f2;
+                transition: width 0.5s ease;
+            }
+
+            .error-message {
+                background: #ed4245;
+                color: white;
+                padding: 10px;
+                border-radius: 4px;
+                margin-bottom: 20px;
+                display: none;
+            }
+
+            .success-message {
+                background: #57f287;
+                color: #000;
+                padding: 10px;
+                border-radius: 4px;
+                margin-bottom: 20px;
+                display: none;
+            }
+
+            .loading {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border: 3px solid #40444b;
+                border-radius: 50%;
+                border-top-color: #5865f2;
+                animation: spin 1s ease-in-out infinite;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .step-buttons {
+                display: flex;
+                gap: 10px;
+                margin-top: 30px;
+            }
+
+            .model-type-toggle {
+                display: flex;
+                background: #40444b;
+                border-radius: 4px;
+                margin-bottom: 20px;
+            }
+
+            .model-type-btn {
+                flex: 1;
+                padding: 10px;
+                background: transparent;
+                border: none;
+                color: #b9bbbe;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .model-type-btn.active {
+                background: #5865f2;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="animated-bg"></div>
+
+        <div class="container">
+            <div class="setup-card">
+                <div class="progress-bar">
+                    <div
+                        class="progress-fill"
+                        id="progressFill"
+                        style="width: 25%"
+                    ></div>
+                </div>
+
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+
+                <!-- Step 1: Welcome -->
+                <div class="setup-step active" id="step1">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <div class="logo-text">Discord AI Bot</div>
+                        <div class="subtitle">Welcome to the setup wizard</div>
+                    </div>
+
+                    <div class="step-buttons">
+                        <button
+                            class="btn btn-primary btn-full"
+                            onclick="nextStep(2)"
+                        >
+                            Let's Start <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Password Setup -->
+                <div class="setup-step" id="step2">
+                    <h2 class="section-title">Set Your Password</h2>
+                    <p style="margin-bottom: 20px; color: #b9bbbe">
+                        Create a secure password to protect your bot
+                        configuration.
+                    </p>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input
+                            type="password"
+                            class="form-input"
+                            id="password"
+                            placeholder="Enter your password"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <input
+                            type="password"
+                            class="form-input"
+                            id="confirmPassword"
+                            placeholder="Confirm your password"
+                        />
+                    </div>
+
+                    <div class="step-buttons">
+                        <button
+                            class="btn btn-secondary"
+                            onclick="previousStep(1)"
+                        >
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button class="btn btn-primary" onclick="nextStep(3)">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: API Key Setup -->
+                <div class="setup-step" id="step3">
+                    <h2 class="section-title">OpenRouter API Key</h2>
+                    <p style="margin-bottom: 20px; color: #b9bbbe">
+                        Enter your OpenRouter API key. This will be used for all
+                        AI models.
+                        <a
+                            href="https://openrouter.ai/keys"
+                            target="_blank"
+                            style="color: #5865f2"
+                            >Get your API key here</a
+                        >
+                    </p>
+
+                    <div class="form-group">
+                        <label class="form-label">API Key</label>
+                        <input
+                            type="password"
+                            class="form-input"
+                            id="apiKey"
+                            placeholder="sk-or-v1-..."
+                        />
+                    </div>
+
+                    <div class="step-buttons">
+                        <button
+                            class="btn btn-secondary"
+                            onclick="previousStep(2)"
+                        >
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button class="btn btn-primary" onclick="nextStep(4)">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Model Selection -->
+                <div class="setup-step" id="step4">
+                    <h2 class="section-title">Select AI Models</h2>
+                    <p style="margin-bottom: 20px; color: #b9bbbe">
+                        Choose which AI models you want to enable. You can
+                        change this later.
+                    </p>
+
+                    <div class="model-type-toggle">
+                        <button
+                            class="model-type-btn active"
+                            onclick="showModelType('free')"
+                            id="freeBtn"
+                        >
+                            <i class="fas fa-gift"></i> Free Models
+                        </button>
+                        <button
+                            class="model-type-btn"
+                            onclick="showModelType('paid')"
+                            id="paidBtn"
+                        >
+                            <i class="fas fa-crown"></i> Paid Models
+                        </button>
+                    </div>
+
+                    <div class="model-grid" id="freeModels">
+                        <!-- Free models will be populated by JavaScript -->
+                    </div>
+
+                    <div
+                        class="model-grid"
+                        id="paidModels"
+                        style="display: none"
+                    >
+                        <!-- Paid models will be populated by JavaScript -->
+                    </div>
+
+                    <div class="step-buttons">
+                        <button
+                            class="btn btn-secondary"
+                            onclick="previousStep(3)"
+                        >
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button
+                            class="btn btn-success"
+                            onclick="completeSetup()"
+                            id="finishBtn"
+                        >
+                            <span id="finishBtnText">Complete Setup</span>
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Model definitions with single Dolphin Mistral model
+            const models = {
+                free: [
+                    {
+                        id: "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+                        name: "Dolphin Mistral 24B",
+                        description:
+                            "High-quality uncensored conversational model",
+                        price: "FREE",
+                    },
+                ],
+                paid: [],
+            };
+
+            let selectedModels = new Set();
+            let currentStep = 1;
+
+            // Initialize models
+            function initializeModels() {
+                populateModels("free", document.getElementById("freeModels"));
+                populateModels("paid", document.getElementById("paidModels"));
+            }
+
+            function populateModels(type, container) {
+                container.innerHTML = "";
+                models[type].forEach((model) => {
+                    const modelCard = document.createElement("div");
+                    modelCard.className = "model-card";
+                    modelCard.onclick = () => toggleModel(model, modelCard);
+
+                    modelCard.innerHTML = `
+                    <div class="model-name">${model.name}</div>
+                    <div class="model-description">${model.description}</div>
+                    <div class="model-price" style="color: ${type === "free" ? "#57f287" : "#faa61a"}; font-weight: 600; font-size: 0.75rem; margin-top: 5px;">${model.price}</div>
+                `;
+
+                    container.appendChild(modelCard);
+                });
+            }
+
+            function toggleModel(model, card) {
+                const modelKey = `${model.id}|${model.name}`;
+                if (selectedModels.has(modelKey)) {
+                    selectedModels.delete(modelKey);
+                    card.classList.remove("selected");
+                } else {
+                    selectedModels.add(modelKey);
+                    card.classList.add("selected");
+                }
+            }
+
+            function showModelType(type) {
+                document.getElementById("freeModels").style.display =
+                    type === "free" ? "block" : "none";
+                document.getElementById("paidModels").style.display =
+                    type === "paid" ? "block" : "none";
+
+                document
+                    .getElementById("freeBtn")
+                    .classList.toggle("active", type === "free");
+                document
+                    .getElementById("paidBtn")
+                    .classList.toggle("active", type === "paid");
+            }
+
+            function showError(message) {
+                const errorEl = document.getElementById("errorMessage");
+                errorEl.textContent = message;
+                errorEl.style.display = "block";
+                setTimeout(() => {
+                    errorEl.style.display = "none";
+                }, 5000);
+            }
+
+            function showSuccess(message) {
+                const successEl = document.getElementById("successMessage");
+                successEl.textContent = message;
+                successEl.style.display = "block";
+            }
+
+            function nextStep(step) {
+                // Validate current step
+                if (currentStep === 2) {
+                    const password = document.getElementById("password").value;
+                    const confirmPassword =
+                        document.getElementById("confirmPassword").value;
+
+                    if (!password || !confirmPassword) {
+                        showError("Please fill in both password fields");
+                        return;
+                    }
+
+                    if (password !== confirmPassword) {
+                        showError("Passwords do not match");
+                        return;
+                    }
+
+                    if (password.length < 6) {
+                        showError(
+                            "Password must be at least 6 characters long",
+                        );
+                        return;
+                    }
+                }
+
+                if (currentStep === 3) {
+                    const apiKey = document.getElementById("apiKey").value;
+                    if (!apiKey || !apiKey.startsWith("sk-or-v1-")) {
+                        showError("Please enter a valid OpenRouter API key");
+                        return;
+                    }
+                }
+
+                // Hide current step
+                document
+                    .getElementById(`step${currentStep}`)
+                    .classList.remove("active");
+
+                // Show next step
+                currentStep = step;
+                document
+                    .getElementById(`step${currentStep}`)
+                    .classList.add("active");
+
+                // Update progress
+                const progress = (currentStep / 4) * 100;
+                document.getElementById("progressFill").style.width =
+                    `${progress}%`;
+            }
+
+            function previousStep(step) {
+                document
+                    .getElementById(`step${currentStep}`)
+                    .classList.remove("active");
+                currentStep = step;
+                document
+                    .getElementById(`step${currentStep}`)
+                    .classList.add("active");
+
+                const progress = (currentStep / 4) * 100;
+                document.getElementById("progressFill").style.width =
+                    `${progress}%`;
+            }
+
+            async function completeSetup() {
+                const password = document.getElementById("password").value;
+                const confirmPassword =
+                    document.getElementById("confirmPassword").value;
+                const apiKey = document.getElementById("apiKey").value;
+
+                if (!password || !confirmPassword || !apiKey) {
+                    showError("Please complete all previous steps");
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    showError("Passwords do not match");
+                    return;
+                }
+
+                // Convert selected models to array
+                const selectedModelsArray = Array.from(selectedModels).map(
+                    (modelKey) => {
+                        const [id, name] = modelKey.split("|");
+                        return { id, name, enabled: true };
+                    },
+                );
+
+                // Show loading
+                const finishBtn = document.getElementById("finishBtn");
+                const finishBtnText = document.getElementById("finishBtnText");
+                finishBtn.disabled = true;
+                finishBtnText.innerHTML =
+                    '<span class="loading"></span> Setting up...';
+
+                try {
+                    const response = await fetch("/complete_setup", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            password: password,
+                            confirm_password: confirmPassword,
+                            api_key: apiKey,
+                            selected_models: selectedModelsArray,
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        showSuccess(
+                            "Setup completed successfully! Redirecting...",
+                        );
+                        setTimeout(() => {
+                            window.location.href = "/login";
+                        }, 2000);
+                    } else {
+                        throw new Error(data.error || "Setup failed");
+                    }
+                } catch (error) {
+                    showError(
+                        error.message || "Setup failed. Please try again.",
+                    );
+                    finishBtn.disabled = false;
+                    finishBtnText.innerHTML =
+                        'Complete Setup <i class="fas fa-check"></i>';
+                }
+            }
+
+            // Initialize when page loads
+            window.addEventListener("load", () => {
+                initializeModels();
+            });
+        </script>
+    </body>
+</html>

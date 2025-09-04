@@ -8,6 +8,16 @@ Before deploying, ensure you have:
 - **Discord Bot Token**: Get from [Discord Developer Portal](https://discord.com/developers/applications)
 - **OpenRouter API Key**: Get from [openrouter.ai](https://openrouter.ai)
 
+## Features Included
+
+This deployment includes:
+
+- 🤖 **Discord AI Bot** with slash commands
+- 🧠 **Conversation Memory** - AI remembers previous conversations per user
+- 🌐 **Web Interface** for model management
+- 🔒 **Per-User Privacy** - each user's conversations are separate
+- 📊 **Memory Management** - users can view and clear their conversation history
+
 ## Step-by-Step Deployment
 
 ### One-Click Deploy (Recommended)
@@ -31,12 +41,41 @@ Click the button above to deploy directly to Railway with our pre-configured tem
 
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
-| `DISCORD_BOT_TOKEN` | Your Discord bot token | Yes | None |
-| `GUILD_ID` | Your Discord server ID | Yes | None |
-| `FLASK_SECRET_KEY` | Secret key for Flask sessions | Yes | None |
-| `DATABASE_URL` | Database connection string | No | Auto-provided by Railway |
+| `DISCORD_BOT_TOKEN` | Your Discord bot token | **Yes** | None |
+| `FLASK_SECRET_KEY` | Secret key for Flask sessions | **Yes** | None |
+| `GUILD_ID` | Your Discord server ID | No | None |
+| `DATABASE_URL` | PostgreSQL connection string | No | Auto-provided by Railway |
 | `PORT` | Port for the web server | No | Auto-set by Railway |
 | `UI_PASSWORD` | Password for accessing the web interface | No | None |
+
+### Important Notes:
+- **PostgreSQL Database**: Railway automatically provides a PostgreSQL database for conversation memory
+- **Memory Storage**: All conversation history is stored securely in the database
+- **GUILD_ID**: Optional - bot works in all servers if not specified
+
+## Post-Deployment Setup
+
+### 1. Add AI Models
+After deployment:
+1. Visit your Railway app URL (e.g., `https://your-app.railway.app`)
+2. Add AI models through the web interface
+3. Configure OpenRouter API keys for each model
+
+### 2. Test Discord Commands
+Test these commands in your Discord server:
+- `/ping` - Check if bot is working
+- `/models` - View available AI models
+- `/change <model>` - Select an AI model
+- `/ask <question>` - Ask AI with memory context
+- `/memory_info` - View conversation statistics
+- `/clear_memory` - Reset conversation history
+
+### 3. Memory Features
+The bot automatically:
+- Creates database tables for conversation history
+- Stores each user's conversations separately
+- Provides context-aware AI responses
+- Allows users to manage their own memory
 
 ## Tutorial
 
@@ -46,6 +85,18 @@ This tutorial provides:
 - Step-by-step Railway deployment instructions
 - Environment variable configuration
 - Post-deployment verification steps
+- Memory feature walkthrough
+
+## Discord Commands Reference
+
+| Command | Description | Memory Feature |
+|---------|-------------|----------------|
+| `/ping` | Check bot status | - |
+| `/ask <content>` | Ask AI question | ✅ Context-aware |
+| `/change <model>` | Switch AI model | - |
+| `/models` | List available models | - |
+| `/memory_info` | View conversation stats | ✅ User statistics |
+| `/clear_memory` | Reset conversation history | ✅ Privacy control |
 
 ## Troubleshooting
 
